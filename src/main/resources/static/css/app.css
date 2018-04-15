@@ -1,0 +1,187 @@
+#application-logo {
+    padding: 10px;
+}
+
+.main-card {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wide-main-card {
+    min-width: 300px;
+    max-width: 842px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-screen {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}​
+
+._md-sidenav-backdrop {
+    height: 100% !important;
+    position: fixed !important;
+}
+
+md-sidenav .md-button {
+    text-align: left;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+.form-error-message {
+    margin-bottom: 20px;
+}
+
+#sample-error-caption {
+    margin-top: 20px;
+}
+
+.ng-hide-add {
+    animation: 0.5s lightSpeedOut ease;
+}
+
+.ng-hide-remove {
+    animation: 0.5s flipInX ease;
+}
+
+.prml-hide.ng-hide-add {
+    animation: 0.5s zoomOut ease;
+}
+
+.big-block.ng-hide-add {
+    animation: 0.5s bounceOut ease;
+}
+
+.big-block.ng-hide-remove {
+    animation: 0.5s bounceInDown ease;
+}
+
+.main-content-block.ng-hide-add, .spinner.ng-hide-add, #form-progressbar.ng-hide-add {
+    animation: none;
+}
+
+.main-content-block.ng-hide-remove, .spinner.ng-hide-remove, #form-progressbar.ng-hide-remove {
+    animation: none;
+}
+
+md-sidenav.md-sidenav-left,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 200px !important;
+    max-width: 250px !important;
+}
+
+#form-progressbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#progress-caption {
+    padding: 10px;
+}
+
+.lf-ng-md-file-input-button-remove {
+    display: none !important;
+}
+
+.md-toolbar-tools h2 {
+    color: white;
+}
+
+.list-item-index {
+    padding-right: 5px !important;
+}
+
+#login-form {
+    width: 100%;
+}
+
+p.no-items {
+    text-align: center;
+}
+
+md-list-item + .no-items {
+    display: none;
+}
+
+#order-spinner {
+    padding: 50px;
+}
+
+#cart-button {
+    padding-right: 10px;
+}
+
+.clear-cart-item {
+    margin-left: auto!important;
+    margin-right: 0!important;
+    margin-bottom: -40px!important;
+}
+
+#login-button {
+    width: 96%;
+}
+
+#user-profile-picture {
+    height: 150px;
+}
+
+md-dialog md-dialog-actions {
+    display: block;
+}
+
+md-dialog md-dialog-actions button {
+    float: right;
+}
+
+.track-actions {
+    width: 130px;
+}
+
+.track-actions .md-button {
+    width: 100%;
+}
+
+md-list-item {
+    padding-top: 20px!important;
+    padding-bottom: 20px!important;
+}
+
+.list-text {
+    overflow: hidden;
+}
+
+.right-actions {
+    margin-left: 30px;
+}
+
+#copy-number-btn {
+    height: 42px;
+    min-width: 42px;
+}
+
+#card-number-block {
+    height: 60px;
+}
+
+form {
+    width: 100%;
+}
+
+md-card-header {
+    margin-bottom: -50px;
+}

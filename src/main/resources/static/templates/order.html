@@ -1,0 +1,67 @@
+<div ng-controller="orderViewCtrl as ctrl">
+    <md-card ng-if="isAdmin" class="main-card">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline center">Замовник</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column" layout-align="space-between">
+            <p><b>Прізвище: </b>{{ctrl.order.user.lastName}}</p>
+            <p><b>Ім'я: </b>{{ctrl.order.user.firstName}}</p>
+            <p><b>Електронна пошта: </b>{{ctrl.order.user.email}}</p>
+        </md-card-content>
+    </md-card>
+    <md-card class="main-card">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline center">Статус замовлення</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column" layout-align="space-between">
+            <p><b>Статус: </b>
+                {{ctrl.order.pending ? 'Очікує підтвердження' : ctrl.order.confirmed ? 'Замовлення прийнято' : 'Замовлення відхилено'}}
+            </p>
+            <md-card-actions ng-if="isAdmin" layout="row" layout-align="center">
+                <md-button ng-if="ctrl.order.pending" ng-click="ctrl.confirmOrder()" class="md-raised md-primary">
+                    Підтвердити
+                </md-button>
+                <md-button ng-if="ctrl.order.pending" ng-click="ctrl.rejectOrder()" class="md-raised">
+                    Відхилити
+                </md-button>
+                <md-button ng-if="!ctrl.order.pending" ng-click="ctrl.deleteOrder()" class="md-raised">
+                    Видалити
+                </md-button>
+            </md-card-actions>
+        </md-card-content>
+    </md-card>
+    <md-card class="main-card">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline center">Список треків</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="row" layout-align="space-between">
+            <md-list flex window-width>
+                <md-progress-circular class="center-screen spinner" md-mode="indeterminate"
+                                      ng-show="ctrl.isSpinnerVisible"></md-progress-circular>
+                <md-list-item class="md-3-line" ng-repeat="t in ctrl.order.tracks">
+                    <img ng-src="img/icons/ic_music_note_black_48px.svg" class="md-avatar">
+                    <div class="md-list-item-text">
+                        <div layout="row">
+                            <div class="list-item-index"><h3>{{$index + 1}}.</h3></div>
+                            <div class="list-text">
+                                <h3>{{t.title}}</h3>
+                                <h4>{{t.artist}}</h4>
+                                <p>Ціна: {{t.price | currency: ''}} грн</p>
+                            </div>
+                        </div>
+                    </div>
+                </md-list-item>
+                <p class="no-items">Список пустий</p>
+            </md-list>
+        </md-card-content>
+        <md-card-footer class="center">
+            <b>Разом:</b> {{ctrl.order.price | currency: ''}} грн
+        </md-card-footer>
+    </md-card>
+</div>

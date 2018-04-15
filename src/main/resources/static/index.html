@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html ng-app="ubtsMusicStore">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/lf-ng-md-file-input.min.css">
+    <title ng-bind="$state.current.data.pageTitle"></title>
+</head>
+<body class="ng-cloak">
+<md-content flex layout="column" layout-fill>
+    <md-toolbar class="md-hue-2">
+        <div window-width class="md-toolbar-tools">
+            <md-button ng-click="toggleLeftSidebar()" class="md-icon-button" aria-label="Меню">
+                <md-icon md-svg-icon="img/icons/ic_menu_white_24px.svg"></md-icon>
+            </md-button>
+            <h2 flex md-truncate>{{$state.current.data.pageTitle + (isAdmin ? ' [Admin Mode]' : '')}}</h2>
+            <md-button ng-if="!isAdmin" id="cart-button" class="md-raised" ng-click="toggleRightSidebar()">
+                <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
+                <span ng-if="width > 500">
+                    Кошик ({{cart.trackList.length}}) - {{cart.totalPrice | currency: ''}} ₴
+                </span>
+                <span ng-if="width < 500">({{cart.trackList.length}}) - {{cart.totalPrice | currency: ''}} ₴</span>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex layout="row">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column">
+            <md-button ui-sref="home" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_home_black_24px.svg"></md-icon>
+                Домашня сторінка
+            </md-button>
+            <md-button ng-if="!isAuthenticated" ui-sref="login" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_account_box_black_24px.svg"></md-icon>
+                Вхід в акаунт
+            </md-button>
+            <md-button ng-if="!isAuthenticated" ui-sref="signup" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_person_add_black_24px.svg"></md-icon>
+                Реєстрація
+            </md-button>
+            <md-button ng-if="isAuthenticated && !isAdmin" ui-sref="library" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_library_music_black_24px.svg"></md-icon>
+                Моя бібліотека
+            </md-button>
+            <md-button ng-if="isAuthenticated" ui-sref="orders" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_list_black_24px.svg"></md-icon>
+                {{isAdmin ? 'Список замовлень' : 'Мої замовлення'}}
+            </md-button>
+            <md-button ng-if="isAuthenticated && isAdmin" ui-sref="trackUpload" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_file_upload_black_24px.svg"></md-icon>
+                Додати пісню
+            </md-button>
+            <md-button ng-if="isAuthenticated" ui-sref="account" ng-click="toggleLeftSidebar()">
+                <md-icon md-svg-src="img/icons/ic_account_box_black_24px.svg"></md-icon>
+                Особистий кабінет
+            </md-button>
+            <md-button ng-if="isAuthenticated" ng-click="toggleLeftSidebar(); logout()">
+                <md-icon md-svg-src="img/icons/ic_exit_to_app_black_24px.svg"></md-icon>
+                Вихід з акаунту
+            </md-button>
+        </md-sidenav>
+        <md-content id="main-content-top" flex>
+            <div class="main-content-block" layout-fill ng-show="isMainSpinnerVisible">
+                <md-progress-circular class="center-screen" md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <ui-view class="main-content-block" ng-show="!isMainSpinnerVisible"></ui-view>
+        </md-content>
+        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" layout="column">
+            <md-content flex ng-controller="cartCtrl as ctrl">
+                <md-card ng-repeat="t in cart.trackList">
+                    <md-button class="md-icon-button clear-cart-item" ng-click="cart.removeFromCart(t)">
+                        <md-icon md-svg-icon="img/icons/ic_clear_black_24px.svg"></md-icon>
+                    </md-button>
+                    <md-card-content>
+                        <h3 class="cart-card-title">{{t.title}}</h3>
+                        <p class="cart-card-artist">{{t.artist}}</p>
+                        <p>Ціна: {{t.price | currency: ''}} грн</p>
+                    </md-card-content>
+                </md-card>
+                <div class="center">
+                    <h3 ng-if="cart.isCartEmpty()" class="md-subhead">Кошик пустий</h3>
+                    <h3 ng-if="!cart.isCartEmpty()" class="md-subhead">
+                        Разом: {{cart.totalPrice | currency: ''}} грн
+                    </h3>
+                    <md-button class="md-raised md-primary" ng-disabled="cart.isCartEmpty()"
+                               ng-click="ctrl.proceedToOrder()">
+                        <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
+                        Перейти до оплати
+                    </md-button>
+                </div>
+            </md-content>
+        </md-sidenav>
+    </md-content>
+</md-content>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.2/angular-scroll.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+<script src="js/lib/lf-ng-md-file-input.js"></script>
+<script src="js/lib/clipboard.min.js"></script>
+<script src="js/lib/ngclipboard.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/config.js"></script>
+<script src="js/service.js"></script>
+<script src="js/factory.js"></script>
+<script src="js/directive.js"></script>
+<script src="js/run.js"></script>
+<script src="js/controller/cart.js"></script>
+<script src="js/controller/track-list.js"></script>
+<script src="js/controller/track-upload.js"></script>
+<script src="js/controller/login.js"></script>
+<script src="js/controller/account.js"></script>
+<script src="js/controller/order-list.js"></script>
+<script src="js/controller/order.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<md-card class="wide-main-card">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline center">Сайт продажу українських пісень прославлення та перекладів</span>
+        </md-card-title-text>
+    </md-card-title>
+    <img ng-src="img/background.jpg">
+</md-card>
+<md-card class="wide-main-card" ng-controller="trackListCtrl as ctrl">
+    <md-card-header>
+        <div layout="row" flex id="search">
+            <md-input-container class="md-block" flex>
+                <label>Назва пісні</label>
+                <input name="query" ng-model="ctrl.form.query" ng-keyup="ctrl.search()">
+            </md-input-container>
+        </div>
+    </md-card-header>
+    <md-card-content layout="row" layout-align="space-between">
+        <md-list flex window-width>
+            <md-progress-circular class="center-screen spinner" md-mode="indeterminate"
+                                  ng-show="ctrl.isSpinnerVisible"></md-progress-circular>
+            <md-list-item class="md-3-line" ng-repeat="t in ctrl.form.tracks | orderBy:'id':true">
+                <img ng-src="img/icons/ic_music_note_black_48px.svg" class="md-avatar">
+                <div class="md-list-item-text">
+                    <div layout="row">
+                        <div class="list-item-index"><h3>{{$index + 1}}.</h3></div>
+                        <div class="list-text">
+                            <h3>{{t.title}}</h3>
+                            <h4>{{t.artist}}</h4>
+                            <p>Ціна: {{t.price | currency: ''}} грн</p>
+                        </div>
+                    </div>
+                    <div>
+                        <md-button class="md-raised" ng-if="ctrl.isMainList && (!t.purchased || isAdmin)"
+                                   ng-click="ctrl.getSampleAudio(t)">
+                            Демо
+                        </md-button>
+                        <md-button class="md-raised" ng-if="!ctrl.isMainList || t.purchased || isAdmin"
+                                   ng-click="ctrl.getAudio(t)">
+                            Аудіо
+                        </md-button>
+                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                                   ng-click="ctrl.getChords(t)">
+                            Акорди
+                        </md-button>
+                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                                   ng-click="ctrl.getNotes(t)">
+                            Ноти
+                        </md-button>
+                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                                   ng-click="ctrl.getPresentation(t)">
+                            PPTX
+                        </md-button>
+                    </div>
+                    <div ng-if="!isAdmin && ctrl.isMainList && width < 750" class="track-actions">
+                        <div ng-if="!t.purchased && !t.orderPending && !t.orderRejected">
+                            <md-button ng-if="!cart.isTrackInCart(t)" ng-click="cart.addToCart(t)" class="md-raised md-primary">
+                                <md-icon md-svg-src="img/icons/ic_add_shopping_cart_black_24px.svg"></md-icon>
+                                В кошик
+                            </md-button>
+                            <md-button ng-if="cart.isTrackInCart(t)" ng-click="cart.removeFromCart(t)" class="md-raised">
+                                <md-icon md-svg-src="img/icons/ic_remove_shopping_cart_black_24px.svg"></md-icon>
+                                Видалити
+                            </md-button>
+                        </div>
+                        <div ng-if="t.purchased || t.orderPending || t.orderRejected">
+                            <md-button class="md-raised md-primary" disabled>
+                                <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
+                                {{t.purchased ? 'Придбано' : t.orderPending ? 'Замовлено' : 'Відхилено'}}
+                            </md-button>
+                        </div>
+                    </div>
+                    <div ng-if="isAdmin && ctrl.isMainList && width < 750" class="track-actions">
+                        <md-button ng-click="ctrl.deleteTrack(t)" class="md-raised md-primary">
+                            <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
+                            Видалити
+                        </md-button>
+                    </div>
+                </div>
+                <div ng-if="!isAdmin && ctrl.isMainList && width > 750" class="track-actions">
+                    <div ng-if="!t.purchased && !t.orderPending && !t.orderRejected">
+                        <md-button ng-if="!cart.isTrackInCart(t)" ng-click="cart.addToCart(t)" class="md-raised md-primary">
+                            <md-icon md-svg-src="img/icons/ic_add_shopping_cart_black_24px.svg"></md-icon>
+                            В кошик
+                        </md-button>
+                        <md-button ng-if="cart.isTrackInCart(t)" ng-click="cart.removeFromCart(t)" class="md-raised">
+                            <md-icon md-svg-src="img/icons/ic_remove_shopping_cart_black_24px.svg"></md-icon>
+                            Видалити
+                        </md-button>
+                    </div>
+                    <div ng-if="t.purchased || t.orderPending || t.orderRejected">
+                        <md-button class="md-raised md-primary" disabled>
+                            <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
+                            {{t.purchased ? 'Придбано' : t.orderPending ? 'Замовлено' : 'Відхилено'}}
+                        </md-button>
+                    </div>
+                </div>
+                <div ng-if="isAdmin && ctrl.isMainList && width > 750" class="track-actions">
+                    <md-button ng-click="ctrl.deleteTrack(t)" class="md-raised md-primary">
+                        <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
+                        Видалити
+                    </md-button>
+                </div>
+            </md-list-item>
+            <p class="no-items">Список пустий</p>
+        </md-list>
+    </md-card-content>
+</md-card>

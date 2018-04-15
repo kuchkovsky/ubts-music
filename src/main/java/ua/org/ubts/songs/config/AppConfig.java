@@ -1,0 +1,35 @@
+package ua.org.ubts.songs.config;
+
+import io.jsonwebtoken.impl.crypto.MacProvider;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.crypto.SecretKey;
+import java.io.File;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public String appDirectory() {
+        return System.getProperty("user.home") + File.separator + "UBTS-MusicStore";
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecretKey secretKey() {
+        return MacProvider.generateKey();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+}

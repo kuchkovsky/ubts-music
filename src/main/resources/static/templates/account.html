@@ -1,0 +1,69 @@
+<div ng-controller="accountCtrl as ctrl">
+    <md-card class="main-card">
+        <md-card-header ng-if="$state.current.name === 'account'">
+            <img id="user-profile-picture" ng-src="img/icons/ic_account_circle_black_48px.svg" class="md-card-image">
+        </md-card-header>
+        <img ng-if="$state.current.name === 'signup'" id="application-logo" ng-src="img/ubts.png" class="md-card-image">
+        <md-card-content layout="row" layout-align="space-between">
+            <form id="signup-form" name="userForm"
+                  ng-submit="userForm.$valid && ($state.current.name === 'account') ? ctrl.update() : ctrl.signup()">
+                <md-input-container class="md-block">
+                    <label>Прізвище</label>
+                    <input required name="lastName" ng-model="ctrl.user.lastName">
+                    <div ng-messages="userForm.lastName.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Ім'я</label>
+                    <input required name="firstName" ng-model="ctrl.user.firstName">
+                    <div ng-messages="userForm.firstName.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Електронна пошта</label>
+                    <input required name="email" ng-model="ctrl.user.email" type="email"
+                           ng-disabled="$state.current.name === 'account'">
+                    <div ng-messages="userForm.email.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                        <div ng-message="email">Некоректний формат електронної пошти.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Номер телефону</label>
+                    <input ng-required="!isAdmin" name="phone" ng-model="ctrl.user.phone">
+                    <div ng-messages="userForm.phone.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{$state.current.name === 'signup' ? 'Пароль' : 'Новий пароль'}}</label>
+                    <input type="password" name="password" ng-model="ctrl.user.password"
+                           ng-required="$state.current.name === 'signup' || ctrl.passwordConfirmation"
+                           ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/">
+                    <div ng-messages="userForm.password.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                        <div ng-message="pattern">
+                            Пароль повинен містити мінімум 8 символів, включаючи мінімум одну букву і одну цифру.
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Підтвердження паролю</label>
+                    <input type="password" name="passwordConfirmation"
+                           ng-required="$state.current.name === 'signup' || ctrl.user.password.length"
+                           ng-model="ctrl.passwordConfirmation" compare-to="ctrl.user.password">
+                    <div ng-messages="userForm.passwordConfirmation.$error">
+                        <div ng-message="required">Обов'язкове поле.</div>
+                        <div ng-message="compareTo">Паролі не співпадають.</div>
+                    </div>
+                </md-input-container>
+                <md-button ng-disabled="userForm.$invalid" class="md-raised md-primary"
+                           type="submit">
+                    {{$state.current.name === 'account' ? 'Оновити дані' : 'Зареєструватися'}}
+                </md-button>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>

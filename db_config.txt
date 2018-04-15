@@ -1,0 +1,17 @@
+CREATE database `ubts-music-store`;
+
+CREATE USER 'music-admin'@'localhost' IDENTIFIED BY 'UNn7Sjc39N}zw@w3mW5*F5R322}p4H6';
+GRANT ALL ON `ubts-music-store`.* TO 'music-admin'@'localhost';
+FLUSH PRIVILEGES;
+
+USE `ubts-music-store`;
+INSERT INTO role (id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO role (id, name) VALUES (2, 'ROLE_ADMIN');
+INSERT INTO user (id, email, password, first_name, last_name)
+    VALUES (1, 'admin@ubts.org.ua', '$2a$04$AE4LfFOvjNf7L4u8BVOoeu0h4cS1V1kGDxjAOigVbVOyXh4TmS4FC', 'Admin', 'Admin');
+INSERT INTO user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO user_role (user_id, role_id) VALUES (1, 2);
+INSERT INTO user (id, email, password, first_name, last_name)
+    VALUES (2, 'y.kuchkovsky@gmail.com', '$2a$04$DD6aTneKY87nfPzFrYOF5el1h2k2lRYvEfi.Sa73ErdZUslrS7eMu', 'Yaroslav', 'Kuchkovsky');
+INSERT INTO user_role (user_id, role_id) VALUES (2, 1);
+INSERT INTO user_role (user_id, role_id) VALUES (2, 2);

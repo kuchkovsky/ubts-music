@@ -1,0 +1,37 @@
+<md-card class="main-card" ng-controller="loginCtrl as ctrl">
+    <img id="application-logo" ng-src="img/ubts.png" class="md-card-image">
+    <md-card-content layout="column" layout-align="space-between">
+        <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && ctrl.login()">
+            <md-input-container class="md-block">
+                <label>Електронна пошта</label>
+                <input required name="email" ng-model="ctrl.credentials.email" type="email">
+                <div ng-messages="loginForm.email.$error">
+                    <div ng-message="required">Обов'язкове поле.</div>
+                    <div ng-message="email">Некоректний формат електронної пошти.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label>Пароль</label>
+                <input type="password" required name="password" ng-model="ctrl.credentials.password"
+                       ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/">
+                <div ng-messages="loginForm.password.$error">
+                    <div ng-message="required">Обов'язкове поле.</div>
+                    <div ng-message="pattern">
+                        Пароль повинен містити мінімум 8 символів, включаючи мінімум одну букву і одну цифру
+                    </div>
+                </div>
+            </md-input-container>
+            <div ng-show="ctrl.error" class="md-subhead form-error-message center error">
+                Неправильний пароль
+            </div>
+            <md-button id="login-button" ng-disabled="loginForm.$invalid" class="md-raised md-primary"
+                       type="submit">
+                Увійти
+            </md-button>
+        </form>
+        <h3 class="md-headline center">Не маєте акаунта?</h3>
+        <md-button class="md-raised md-primary" ui-sref="signup">
+            Зареєструватися
+        </md-button>
+    </md-card-content>
+</md-card>
