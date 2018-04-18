@@ -1,10 +1,10 @@
-CREATE database `ubts-music-store`;
+CREATE database `ubts_music_store`;
 
 CREATE USER 'music-admin'@'localhost' IDENTIFIED BY 'UNn7Sjc39N}zw@w3mW5*F5R322}p4H6';
-GRANT ALL ON `ubts-music-store`.* TO 'music-admin'@'localhost';
+GRANT ALL ON `ubts_music_store`.* TO 'music-admin'@'localhost';
 FLUSH PRIVILEGES;
 
-USE `ubts-music-store`;
+USE `ubts_music_store`;
 INSERT INTO role (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO role (id, name) VALUES (2, 'ROLE_ADMIN');
 INSERT INTO user (id, email, password, first_name, last_name)
@@ -15,3 +15,10 @@ INSERT INTO user (id, email, password, first_name, last_name)
     VALUES (2, 'y.kuchkovsky@gmail.com', '$2a$04$DD6aTneKY87nfPzFrYOF5el1h2k2lRYvEfi.Sa73ErdZUslrS7eMu', 'Yaroslav', 'Kuchkovsky');
 INSERT INTO user_role (user_id, role_id) VALUES (2, 1);
 INSERT INTO user_role (user_id, role_id) VALUES (2, 2);
+
+INSERT INTO file_extension (mime_type, name) VALUES ('audio/mpeg3', '.mp3');
+INSERT INTO file_extension (mime_type, name) VALUES ('audio/ogg', '.ogg');
+INSERT INTO file_extension (mime_type, name) VALUES ('audio/flac', '.flac');
+INSERT INTO file_extension (mime_type, name) VALUES ('application/pdf', '.pdf');
+INSERT INTO file_extension (mime_type, name) VALUES ('application/vnd.ms-powerpoint', '.ppt');
+INSERT INTO file_extension (mime_type, name) VALUES ('application/vnd.openxmlformats-officedocument.presentationml.presentation', '.pptx');
