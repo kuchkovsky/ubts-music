@@ -10,7 +10,9 @@ public interface TrackFileService {
 
     ResponseEntity<Resource> getAudio(Long id);
 
-    ResponseEntity<Resource> getChords(Long id);
+    ResponseEntity<Resource> getPdfChords(Long id);
+
+    ResponseEntity<Resource> getDocChords(Long id);
 
     ResponseEntity<Resource> getNotes(Long id);
 

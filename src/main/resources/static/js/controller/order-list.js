@@ -80,10 +80,8 @@
                 .cancel('Ні');
             $mdDialog.show(confirm).then(() => {
                 orderService.deleteOrder(order, () => {
-                    const orderIndex = this.orders.findIndex(o => o.id === order.id);
-                    this.orders.splice(orderIndex, 1);
-                    const orderFormIndex = this.form.orders.findIndex(o => o.id === order.id);
-                    this.form.orders.splice(orderFormIndex, 1);
+                    this.orders = this.orders.filter(o => o.id !== order.id);
+                    this.form.orders = this.form.orders.filter(o => o.id !== order.id);
                 }, () => {
                     showError('Не вдалося видалити замовлення');
                 });

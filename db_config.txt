@@ -20,5 +20,7 @@ INSERT INTO file_extension (mime_type, name) VALUES ('audio/mpeg3', '.mp3');
 INSERT INTO file_extension (mime_type, name) VALUES ('audio/ogg', '.ogg');
 INSERT INTO file_extension (mime_type, name) VALUES ('audio/flac', '.flac');
 INSERT INTO file_extension (mime_type, name) VALUES ('application/pdf', '.pdf');
+INSERT INTO file_extension (mime_type, name) VALUES ('application/msword', '.doc');
+INSERT INTO file_extension (mime_type, name) VALUES ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx');
 INSERT INTO file_extension (mime_type, name) VALUES ('application/vnd.ms-powerpoint', '.ppt');
 INSERT INTO file_extension (mime_type, name) VALUES ('application/vnd.openxmlformats-officedocument.presentationml.presentation', '.pptx');

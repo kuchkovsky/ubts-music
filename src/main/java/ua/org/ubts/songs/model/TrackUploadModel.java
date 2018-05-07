@@ -12,7 +12,8 @@ public class TrackUploadModel {
     private String sampleAudioUrl;
     private MultipartFile sampleAudio;
     private MultipartFile audio;
-    private MultipartFile chords;
+    private MultipartFile pdfChords;
+    private MultipartFile docChords;
     private MultipartFile notes;
     private MultipartFile presentation;
 

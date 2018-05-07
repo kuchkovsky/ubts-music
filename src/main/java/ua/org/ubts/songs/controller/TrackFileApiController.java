@@ -31,9 +31,14 @@ public class TrackFileApiController {
         return trackFileService.getAudio(id);
     }
 
-    @GetMapping("/chords/{id}")
-    public ResponseEntity<Resource> getTrackChords(@PathVariable("id") Long id) {
-        return trackFileService.getChords(id);
+    @GetMapping("/chords/pdf/{id}")
+    public ResponseEntity<Resource> getTrackPdfChords(@PathVariable("id") Long id) {
+        return trackFileService.getPdfChords(id);
+    }
+
+    @GetMapping("/chords/doc/{id}")
+    public ResponseEntity<Resource> getTrackDocChords(@PathVariable("id") Long id) {
+        return trackFileService.getDocChords(id);
     }
 
     @GetMapping("/notes/{id}")

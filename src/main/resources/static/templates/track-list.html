@@ -31,23 +31,27 @@
                         </div>
                     </div>
                     <div>
-                        <md-button class="md-raised" ng-if="ctrl.isMainList && (!t.purchased || isAdmin)"
+                        <md-button class="md-raised download-btn" ng-if="ctrl.isMainList && (!t.purchased || isAdmin)"
                                    ng-click="ctrl.getSampleAudio(t)">
                             Демо
                         </md-button>
-                        <md-button class="md-raised" ng-if="!ctrl.isMainList || t.purchased || isAdmin"
+                        <md-button class="md-raised download-btn" ng-if="!ctrl.isMainList || t.purchased || isAdmin"
                                    ng-click="ctrl.getAudio(t)">
                             Аудіо
                         </md-button>
-                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
-                                   ng-click="ctrl.getChords(t)">
-                            Акорди
+                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                                   ng-click="ctrl.getPdfChords(t)">
+                            PDF-акорди
                         </md-button>
-                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                                   ng-click="ctrl.getDocChords(t)">
+                            DOC-акорди
+                        </md-button>
+                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
                                    ng-click="ctrl.getNotes(t)">
                             Ноти
                         </md-button>
-                        <md-button class="md-raised" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
                                    ng-click="ctrl.getPresentation(t)">
                             PPTX
                         </md-button>

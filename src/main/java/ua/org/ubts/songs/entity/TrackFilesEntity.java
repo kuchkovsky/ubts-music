@@ -26,8 +26,12 @@ public class TrackFilesEntity extends BaseEntity {
     private FileExtensionEntity audioExtension;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "chords_ext_id")
-    private FileExtensionEntity chordsExtension;
+    @JoinColumn(name = "pdf_chords_ext_id")
+    private FileExtensionEntity pdfChordsExtension;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "doc_chords_ext_id")
+    private FileExtensionEntity docChordsExtension;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "notes_ext_id")

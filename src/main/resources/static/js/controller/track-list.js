@@ -50,28 +50,28 @@
             $mdDialog.show(alert);
         }
 
-        this.getSampleAudio = t => downloadService.getSampleAudio(t);
+        this.getSampleAudio = track => downloadService.getSampleAudio(track);
 
-        this.getAudio = t => downloadService.getAudio(t, () => showDownloadError());
+        this.getAudio = track => downloadService.getAudio(track, () => showDownloadError());
 
-        this.getChords = t => downloadService.getChords(t, () => showDownloadError());
+        this.getPdfChords = track => downloadService.getPdfChords(track, () => showDownloadError());
 
-        this.getNotes = t => downloadService.getNotes(t, () => showDownloadError());
+        this.getDocChords = track => downloadService.getDocChords(track, () => showDownloadError());
 
-        this.getPresentation = t => downloadService.getPresentation(t, () => showDownloadError());
+        this.getNotes = track => downloadService.getNotes(track, () => showDownloadError());
 
-        this.deleteTrack = t => {
+        this.getPresentation = track => downloadService.getPresentation(track, () => showDownloadError());
+
+        this.deleteTrack = track => {
             const confirm = $mdDialog.confirm()
                 .title('Підтвердження операції')
                 .textContent('Ви дійсно бажаєте видалити цю пісню?')
                 .ok('Так')
                 .cancel('Ні');
             $mdDialog.show(confirm).then(() => {
-                trackService.deleteTrack(t, () => {
-                    const trackIndex = this.tracks.findIndex(track => track.id === t.id);
-                    this.tracks.splice(trackIndex, 1);
-                    const trackFormIndex = this.form.tracks.findIndex(track => track.id === t.id);
-                    this.form.tracks.splice(trackFormIndex, 1);
+                trackService.deleteTrack(track, () => {
+                    this.tracks = this.tracks.filter(t => t.id !== track.id);
+                    this.form.tracks = this.form.tracks.filter(t => t.id !== track.id);
                 }, () => {
                     const alert = $mdDialog.alert().title('Помилка').textContent('Не вдалося видалити пісню').ok('Закрити');
                     $mdDialog.show(alert);

@@ -56,10 +56,18 @@
                         </div>
                     </section>
                     <section>
-                        <h3 class="md-subhead">Акорди:</h3>
-                        <lf-ng-md-file-input name="chords" ng-model="ctrl.form.trackFiles.chords"
-                                             lf-files="ctrl.form.trackFiles.chords" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.chords.$error" class="md-caption error">
+                        <h3 class="md-subhead">PDF-акорди:</h3>
+                        <lf-ng-md-file-input name="pdfChords" ng-model="ctrl.form.trackFiles.pdfChords"
+                                             lf-files="ctrl.form.trackFiles.pdfChords" lf-required progress></lf-ng-md-file-input>
+                        <div ng-messages="trackForm.pdfChords.$error" class="md-caption error">
+                            <div ng-message="required">Обов'язкове поле.</div>
+                        </div>
+                    </section>
+                    <section>
+                        <h3 class="md-subhead">DOC-акорди:</h3>
+                        <lf-ng-md-file-input name="docChords" ng-model="ctrl.form.trackFiles.docChords"
+                                             lf-files="ctrl.form.trackFiles.docChords" lf-required progress></lf-ng-md-file-input>
+                        <div ng-messages="trackForm.docChords.$error" class="md-caption error">
                             <div ng-message="required">Обов'язкове поле.</div>
                         </div>
                     </section>

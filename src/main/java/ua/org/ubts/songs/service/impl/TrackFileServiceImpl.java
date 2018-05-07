@@ -39,13 +39,15 @@ public class TrackFileServiceImpl implements TrackFileService {
 
     private static final String SAMPLE_AUDIO_FILENAME = "sampleAudio";
     private static final String AUDIO_FILENAME = "audio";
-    private static final String CHORDS_FILENAME = "chords";
+    private static final String PDF_CHORDS_FILENAME = "pdfChords";
+    private static final String DOC_CHORDS_FILENAME = "docChords";
     private static final String NOTES_FILENAME = "notes";
     private static final String PRESENTATION_FILENAME = "presentation";
 
     private static final String SAMPLE_AUDIO_NOT_FOUND_MESSAGE = "Could not find sample audio for track with id=";
     private static final String AUDIO_NOT_FOUND_MESSAGE = "Could not find audio for track with id=";
-    private static final String CHORDS_NOT_FOUND_MESSAGE = "Could not find chords for track with id=";
+    private static final String PDF_CHORDS_NOT_FOUND_MESSAGE = "Could not find pdf chords for track with id=";
+    private static final String DOC_CHORDS_NOT_FOUND_MESSAGE = "Could not find doc chords for track with id=";
     private static final String NOTES_NOT_FOUND_MESSAGE = "Could not find notes for track with id=";
     private static final String PRESENTATION_NOT_FOUND_MESSAGE = "Could not find presentation for track with id=";
     private static final String CREATE_TRACK_ERROR_MESSAGE = "Could not save track info in database";
@@ -93,13 +95,24 @@ public class TrackFileServiceImpl implements TrackFileService {
     }
 
     @Override
-    public ResponseEntity<Resource> getChords(Long id) {
+    public ResponseEntity<Resource> getPdfChords(Long id) {
         TrackFilesEntity trackFilesEntity = trackRepository.findById(id).map(TrackEntity::getFiles).orElseThrow(() ->
-                new FileNotFoundException(CHORDS_NOT_FOUND_MESSAGE + id));
-        String extension = trackFilesEntity.getChordsExtension().getName();
-        String mimeType = getMimeType(trackFilesEntity.getChordsExtension());
-        Path path = getPath(id, CHORDS_FILENAME, extension);
-        String downloadType = " (" + CHORDS_FILENAME + ")";
+                new FileNotFoundException(PDF_CHORDS_NOT_FOUND_MESSAGE + id));
+        String extension = trackFilesEntity.getPdfChordsExtension().getName();
+        String mimeType = getMimeType(trackFilesEntity.getPdfChordsExtension());
+        Path path = getPath(id, PDF_CHORDS_FILENAME, extension);
+        String downloadType = " (" + PDF_CHORDS_FILENAME + ")";
+        return buildResponseEntity(getFileName(id) + downloadType + extension, mimeType, path);
+    }
+
+    @Override
+    public ResponseEntity<Resource> getDocChords(Long id) {
+        TrackFilesEntity trackFilesEntity = trackRepository.findById(id).map(TrackEntity::getFiles).orElseThrow(() ->
+                new FileNotFoundException(DOC_CHORDS_NOT_FOUND_MESSAGE + id));
+        String extension = trackFilesEntity.getDocChordsExtension().getName();
+        String mimeType = getMimeType(trackFilesEntity.getDocChordsExtension());
+        Path path = getPath(id, DOC_CHORDS_FILENAME, extension);
+        String downloadType = " (" + DOC_CHORDS_FILENAME + ")";
         return buildResponseEntity(getFileName(id) + downloadType + extension, mimeType, path);
     }
 
@@ -188,8 +201,10 @@ public class TrackFileServiceImpl implements TrackFileService {
                                 getFileExtension(trackUploadModel.getSampleAudio().getOriginalFilename())) : null)
                 .audioExtension(getFileExtensionEntity(
                         getFileExtension(trackUploadModel.getAudio().getOriginalFilename())))
-                .chordsExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getChords().getOriginalFilename())))
+                .pdfChordsExtension(getFileExtensionEntity(
+                        getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())))
+                .docChordsExtension(getFileExtensionEntity(
+                        getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())))
                 .notesExtension(getFileExtensionEntity(
                         getFileExtension(trackUploadModel.getNotes().getOriginalFilename())))
                 .presentationExtension(getFileExtensionEntity(
@@ -220,9 +235,12 @@ public class TrackFileServiceImpl implements TrackFileService {
             Files.write(getPath(id, AUDIO_FILENAME,
                     getFileExtension(trackUploadModel.getAudio().getOriginalFilename())),
                     trackUploadModel.getAudio().getBytes());
-            Files.write(getPath(id, CHORDS_FILENAME,
-                    getFileExtension(trackUploadModel.getChords().getOriginalFilename())),
-                    trackUploadModel.getChords().getBytes());
+            Files.write(getPath(id, PDF_CHORDS_FILENAME,
+                    getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())),
+                    trackUploadModel.getPdfChords().getBytes());
+            Files.write(getPath(id, DOC_CHORDS_FILENAME,
+                    getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())),
+                    trackUploadModel.getDocChords().getBytes());
             Files.write(getPath(id, NOTES_FILENAME,
                     getFileExtension(trackUploadModel.getNotes().getOriginalFilename())),
                     trackUploadModel.getNotes().getBytes());

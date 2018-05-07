@@ -150,7 +150,9 @@
 
         this.getAudio = (track, onError) => secureTrackFileDownload(track, 'audio', onError);
 
-        this.getChords = (track, onError) => secureTrackFileDownload(track, 'chords', onError);
+        this.getPdfChords = (track, onError) => secureTrackFileDownload(track, 'chords/pdf', onError);
+
+        this.getDocChords = (track, onError) => secureTrackFileDownload(track, 'chords/doc', onError);
 
         this.getNotes = (track, onError) => secureTrackFileDownload(track, 'notes', onError);
 
@@ -172,7 +174,8 @@
                 formData.append('sampleAudio', trackFiles.sampleAudio[0].lfFile);
             }
             formData.append('audio', trackFiles.audio[0].lfFile);
-            formData.append('chords', trackFiles.chords[0].lfFile);
+            formData.append('pdfChords', trackFiles.pdfChords[0].lfFile);
+            formData.append('docChords', trackFiles.docChords[0].lfFile);
             formData.append('notes', trackFiles.notes[0].lfFile);
             formData.append('presentation', trackFiles.presentation[0].lfFile);
             progressBar.counter = 0;
@@ -216,13 +219,8 @@
         };
 
         this.removeFromCart = track => {
-            const trackIdIndex = this.trackIdList.indexOf(track.id);
-            if (trackIdIndex === -1) {
-                return;
-            }
-            this.trackIdList.splice(trackIdIndex, 1);
-            const trackIndex = this.trackList.findIndex(t => t.id === track.id);
-            this.trackList.splice(trackIndex, 1);
+            this.trackIdList = this.trackIdList.filter(t => t !== track.id);
+            this.trackList = this.trackList.filter(t => t.id !== track.id);
             this.totalPrice -= track.price;
             this.saveToLocalStorage();
         };
