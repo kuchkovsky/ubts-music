@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp dev",
-    "build": "gulp prod",
-    "start": "http-server ./target/classes/static -a localhost -p 8088 -c-1"
+    "dev": "gulp dev --environment development",
+    "build": "gulp build --environment production",
+    "copy-resources": "gulp copy-resources",
+    "watch-js": "gulp watch-js --environment development",
+    "watch-resources": "gulp watch-resources",
+    "server": "http-server ./target/classes/static -a localhost -p 4200 -c-1",
+    "start": "concurrently --kill-others \"npm run watch-resources\" \"npm run watch-js\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -19,14 +23,18 @@
   },
   "homepage": "https://github.com/kuchkovsky/UBTS-MusicStore#readme",
   "devDependencies": {
+    "add-stream": "^1.0.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
+    "concurrently": "^3.5.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-bytediff": "^1.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-ng-annotate": "^2.1.0",
+    "gulp-ng-config": "^1.5.0",
     "gulp-plumber": "^1.2.0",
-    "gulp-uglify": "^3.0.0"
+    "gulp-uglify": "^3.0.0",
+    "yargs": "^11.0.0"
   }
 }

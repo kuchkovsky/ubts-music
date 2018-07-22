@@ -1,0 +1,8 @@
+{
+  "development": {
+    "apiUrl": "http://localhost:8081"
+  },
+  "production": {
+    "apiUrl": "https://songs.ubts.org.ua"
+  }
+}

@@ -65,11 +65,11 @@
 
     });
     
-    app.service('userService', function ($http) {
+    app.service('userService', function ($http, apiUrl) {
         
         this.signup = (user, onSuccess, onError) => {
             $http({
-                url: '/api/users',
+                url: apiUrl + '/api/users',
                 method: 'POST',
                 data: user
             }).then(onSuccess, onError);
@@ -77,7 +77,7 @@
 
         this.update = (user, onSuccess, onError) => {
             $http({
-                url: '/api/users',
+                url: apiUrl + '/api/users',
                 method: 'PUT',
                 data: user
             }).then(onSuccess, onError);
@@ -85,18 +85,18 @@
 
     });
 
-    app.service('downloadService', function ($http) {
+    app.service('downloadService', function ($http, apiUrl) {
 
         function download(url, onSuccess, onError) {
             $http.get(url).then(response => onSuccess(response.data), onError);
         }
 
         this.getTracks = (onSuccess, onError) => {
-            download('/api/tracks', onSuccess, onError);
+            download(apiUrl + '/api/tracks', onSuccess, onError);
         };
 
         this.getTracksByIds = (trackIds, onSuccess, onError) => {
-            $http.get('/api/tracks', {
+            $http.get(apiUrl + '/api/tracks', {
                 params: {
                     id: trackIds
                 }
@@ -104,30 +104,30 @@
         };
         
         this.getCurrentUser = (onSuccess, onError) => {
-            download('/api/users/me', onSuccess, onError);
+            download(apiUrl + '/api/users/me', onSuccess, onError);
         };
 
         this.getUserTracks = (onSuccess, onError) => {
-            download('/api/tracks/my', onSuccess, onError);
+            download(apiUrl + '/api/tracks/my', onSuccess, onError);
         };
 
         this.getCurrentUserOrders = (onSuccess, onError) => {
-            download('/api/orders/my', onSuccess, onError);
+            download(apiUrl + '/api/orders/my', onSuccess, onError);
         };
 
         this.getAllUserOrders = (onSuccess, onError) => {
-            download('/api/orders', onSuccess, onError);
+            download(apiUrl + '/api/orders', onSuccess, onError);
         };
 
         this.getOrder = (id, onSuccess, onError) => {
-            download('/api/orders/' + id, onSuccess, onError);
+            download(apiUrl + '/api/orders/' + id, onSuccess, onError);
         };
 
         function secureTrackFileDownload(track, fileType, onError) {
-            download('/api/tokens/tracks/' + track.id, data => {
+            download(apiUrl + '/api/tokens/tracks/' + track.id, data => {
                 const anchor = angular.element('<a/>');
                 anchor.attr({
-                    href: 'api/files/tracks/' + fileType + '/' + track.id + '?token=' + data.token,
+                    href: apiUrl + 'api/files/tracks/' + fileType + '/' + track.id + '?token=' + data.token,
                 })[0].click();
                 anchor.remove();
             }, onError);
@@ -142,7 +142,7 @@
                 })[0].click();
             } else {
                 anchor.attr({
-                    href: 'api/files/tracks/sample/' + track.id,
+                    href: apiUrl + 'api/files/tracks/sample/' + track.id,
                 })[0].click();
             }
             anchor.remove();
@@ -160,7 +160,7 @@
 
     });
 
-    app.service('uploadService', function ($http) {
+    app.service('uploadService', function ($http, apiUrl) {
 
         this.sendTrack = (trackInfo, trackFiles, progressBar, onSuccess, onError) => {
             const formData = new FormData();
@@ -183,7 +183,7 @@
             const application = angular.element(document.getElementById('main-content-top'));
             application.scrollTop(application[0].scrollHeight, 500);
             console.log('Posting files...');
-            $http.post('/api/files/tracks', formData, {
+            $http.post(apiUrl + '/api/files/tracks', formData, {
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined },
                 uploadEventHandlers: {
@@ -254,22 +254,22 @@
 
     });
 
-    app.service('trackService', function ($http) {
+    app.service('trackService', function ($http, apiUrl) {
 
         this.deleteTrack = (track, onSuccess, onError) => {
             $http({
-                url: '/api/tracks/' + track.id,
+                url: apiUrl + '/api/tracks/' + track.id,
                 method: 'DELETE'
             }).then(onSuccess, onError);
         }
 
     });
 
-    app.service('orderService', function ($http, cartService) {
+    app.service('orderService', function ($http, apiUrl, cartService) {
 
         this.sendOrder = (onSuccess, onError) => {
             $http({
-                url: '/api/orders',
+                url: apiUrl + '/api/orders',
                 method: 'POST',
                 data: { id: cartService.trackIdList }
             }).then(onSuccess, onError);
@@ -277,7 +277,7 @@
 
         function updateOrder(order, onSuccess, onError) {
             $http({
-                url: '/api/orders',
+                url: apiUrl + '/api/orders',
                 method: 'PUT',
                 data: order
             }).then(onSuccess, onError);
@@ -305,7 +305,7 @@
 
         this.deleteOrder = (order, onSuccess, onError) => {
             $http({
-                url: '/api/orders/' + order.id,
+                url: apiUrl + '/api/orders/' + order.id,
                 method: 'DELETE'
             }).then(onSuccess, onError);
         };

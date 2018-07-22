@@ -6,6 +6,6 @@
     'use strict';
 
     angular.module('ubtsMusicStore',
-        ['ngMaterial', 'ngMessages', 'ngAnimate', 'lfNgMdFileInput', 'duScroll', 'ui.router', 'ngclipboard']);
+        ['config', 'ngMaterial', 'ngMessages', 'ngAnimate', 'lfNgMdFileInput', 'duScroll', 'ui.router', 'ngclipboard']);
 
 })();
