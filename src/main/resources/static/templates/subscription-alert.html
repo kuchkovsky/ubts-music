@@ -2,10 +2,10 @@
     <form ng-cloak>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div ng-if="!order.state.hasStarted">
-                    <h3>Підтвердження замовлення</h3>
-                    <p class="md-subhead">Ви здійснюєте замовлення на суму <b>{{order.total | currency: ''}} грн</b></p>
-                    <p>Для оплати замовлення перекажіть кошти на рахунок, вказаний нижче:</p>
+                <div ng-if="!subscriptionRequest.state.hasStarted">
+                    <h3>Оформлення підписки</h3>
+                    <p class="md-subhead">Ви оформлюєте підписку вартістю <b>100 грн/рік</b></p>
+                    <p>Для оплати підписки перекажіть кошти на рахунок, вказаний нижче:</p>
                     <div id="card-number-block" flex layout="row">
                         <md-input-container class="md-block">
                             <label>Номер картки</label>
@@ -18,21 +18,21 @@
                     </div>
                     <p>Після здійснення переказу натисніть кнопку "Підтвердити"</p>
                 </div>
-                <div ng-if="order.state.hasStarted">
-                    <div ng-if="order.state.inProgress">
-                        <h3>Триває надсилання замовлення...</h3>
-                        <div id="order-spinner">
+                <div ng-if="subscriptionRequest.state.hasStarted">
+                    <div ng-if="subscriptionRequest.state.inProgress">
+                        <h3>Триває надсилання заявки...</h3>
+                        <div id="subscription-request-spinner">
                             <md-progress-circular class="center-screen" md-mode="indeterminate"></md-progress-circular>
                         </div>
                     </div>
-                    <div ng-if="!order.state.inProgress">
-                        <div ng-if="order.state.success">
-                            <h3>Замовлення успішно прийнято</h3>
-                            <p>Нові треки будуть додані у вашу музичну бібліотеку після підтвердження оплати адміністратором</p>
+                    <div ng-if="!subscriptionRequest.state.inProgress">
+                        <div ng-if="subscriptionRequest.state.success">
+                            <h3>Заявку на оформлення підписки прийнято</h3>
+                            <p>Треки будуть доступні для завантаження після підтвердження оплати адміністратором</p>
                         </div>
-                        <div ng-if="!order.state.success">
-                            <h3>Помилка оплати</h3>
-                            <p ng-if="order.state.networkError">
+                        <div ng-if="!subscriptionRequest.state.success">
+                            <h3>Помилка надсилання даних</h3>
+                            <p ng-if="subscriptionRequest.state.networkError">
                                 Не вдалося з'єднатися з сервером. Перевірте підключення до Інтернету та спробуйте знову.
                             </p>
                         </div>
@@ -41,13 +41,13 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
-            <md-button class="md-raised md-primary" ng-if="!order.state.hasStarted" ng-click="sendOrder()">
+            <md-button class="md-raised md-primary" ng-if="!subscriptionRequest.state.hasStarted" ng-click="sendSubscriptionRequest()">
                 Підтвердити
             </md-button>
-            <md-button class="md-raised" ng-if="!order.state.hasStarted" ng-click="hide()">
+            <md-button class="md-raised" ng-if="!subscriptionRequest.state.hasStarted" ng-click="hide()">
                 Скасувати
             </md-button>
-            <md-button class="md-raised md-primary" ng-if="order.state.hasStarted && !order.state.inProgress"
+            <md-button class="md-raised md-primary" ng-if="subscriptionRequest.state.hasStarted && !subscriptionRequest.state.inProgress"
                        ng-click="hide()">
                 Закрити
             </md-button>

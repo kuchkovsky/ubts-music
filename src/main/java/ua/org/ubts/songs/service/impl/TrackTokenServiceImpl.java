@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ua.org.ubts.songs.dto.TokenDto;
 import ua.org.ubts.songs.entity.UserEntity;
-import ua.org.ubts.songs.exception.TrackNotPuchasedException;
+import ua.org.ubts.songs.exception.SubscriptionNotActivatedException;
 import ua.org.ubts.songs.service.TrackTokenService;
 import ua.org.ubts.songs.service.UserService;
 import ua.org.ubts.songs.util.AuthUtil;
@@ -20,8 +20,8 @@ import java.util.Date;
 @Transactional
 public class TrackTokenServiceImpl implements TrackTokenService {
 
-    private static final String TRACK_NOT_PURCHASED_MESSAGE = "You don't have permission to obtain this token. "
-            + "Please purchase the track first.";
+    private static final String SUBSCRIPTION_NOT_ACTIVATED_MESSAGE = "You don't have permission to obtain this token. "
+            + "Please activate your subscription first.";
 
     private static final long TOKEN_EXPIRATION_TIME = 2000; // 2s
 
@@ -34,9 +34,8 @@ public class TrackTokenServiceImpl implements TrackTokenService {
     @Override
     public TokenDto getDownloadToken(Long id, Authentication authentication) {
         UserEntity userEntity = userService.getUser(authentication);
-        if (!AuthUtil.isAdmin(authentication)) {
-            userEntity.getTracks().stream().filter(t -> t.getId().equals(id)).findAny().orElseThrow(() ->
-                    new TrackNotPuchasedException(TRACK_NOT_PURCHASED_MESSAGE));
+        if (!AuthUtil.isAdmin(authentication) && !userEntity.getSubscription().isActive()) {
+            throw new SubscriptionNotActivatedException(SUBSCRIPTION_NOT_ACTIVATED_MESSAGE);
         }
         Claims claims = Jwts.claims().setSubject(String.valueOf(userEntity.getId()));
         claims.put("trackId", id);
@@ -50,16 +49,15 @@ public class TrackTokenServiceImpl implements TrackTokenService {
 
     @Override
     public boolean verifyToken(String token) {
-        Long userId, trackId;
+        Long userId;
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             userId = Long.parseLong(claims.getBody().getSubject());
-            trackId = ((Integer) claims.getBody().get("trackId")).longValue();
         } catch (JwtException | NumberFormatException e) {
             return false;
         }
         UserEntity user = userService.getUser(userId);
-        return AuthUtil.isAdmin(user) || user.getTracks().stream().anyMatch(t -> t.getId().equals(trackId));
+        return AuthUtil.isAdmin(user) || user.getSubscription().isActive();
     }
 
 }

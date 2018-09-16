@@ -14,8 +14,6 @@ public class TrackDto extends BaseDto {
 
     private String title;
 
-    private BigDecimal price;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String sampleAudioUrl;
 

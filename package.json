@@ -1,7 +1,6 @@
 {
   "name": "ubts-musicstore",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "gulp dev --environment development",
@@ -36,5 +35,6 @@
     "gulp-plumber": "^1.2.0",
     "gulp-uglify": "^3.0.0",
     "yargs": "^11.0.0"
-  }
+  },
+  "description": ""
 }

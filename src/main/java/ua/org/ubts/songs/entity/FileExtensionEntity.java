@@ -12,11 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FileExtensionEntity extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class FileExtensionEntity extends BaseEntity<Integer> {
 
     @NotEmpty
     @Column(name = "name", unique = true, nullable = false)

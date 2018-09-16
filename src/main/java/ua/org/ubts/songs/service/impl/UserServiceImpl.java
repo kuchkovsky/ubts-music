@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.org.ubts.songs.entity.RoleEntity;
+import ua.org.ubts.songs.entity.SubscriptionEntity;
 import ua.org.ubts.songs.entity.UserEntity;
 import ua.org.ubts.songs.exception.UserAlreadyExistsException;
 import ua.org.ubts.songs.exception.UserNotFoundException;
@@ -38,6 +39,12 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    public UserEntity getUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new UserNotFoundException(USER_EMAIL_NOT_FOUND_MESSAGE + email));
+    }
+
+    @Override
     public UserEntity getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(USER_ID_NOT_FOUND_MESSAGE + id));
     }
@@ -50,9 +57,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUser(Authentication authentication) {
-        String email =  ((String) authentication.getPrincipal());
-        return userRepository.findByEmail(email).orElseThrow(() ->
-                new UserNotFoundException(USER_EMAIL_NOT_FOUND_MESSAGE + email));
+        String email = ((String) authentication.getPrincipal());
+        return getUser(email);
     }
 
     @Override
@@ -62,8 +68,10 @@ public class UserServiceImpl implements UserService {
         });
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         ArrayList<RoleEntity> roleEntities = new ArrayList<>();
-        roleEntities.add(roleRepository.findByName("ROLE_USER").get());
+        roleEntities.add(roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("What about ROLE_USER in DB, the greatest dev(ops)???")));
         userEntity.setRoles(roleEntities);
+        userEntity.setSubscription(new SubscriptionEntity());
         userRepository.save(userEntity);
         log.info("New user account created: {}", userEntity.getEmail());
     }

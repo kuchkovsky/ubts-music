@@ -8,7 +8,6 @@ public class TrackUploadModel {
 
     private String artist;
     private String title;
-    private double price;
     private String sampleAudioUrl;
     private MultipartFile sampleAudio;
     private MultipartFile audio;

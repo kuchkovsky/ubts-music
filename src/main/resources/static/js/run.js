@@ -22,11 +22,13 @@
         });
     });
 
-    app.run(function($mdSidenav, $rootScope, $mdDialog, cartService, authService) {
-        $rootScope.cart = cartService;
+    app.run(function($mdSidenav, $rootScope, $mdDialog, authService) {
         $rootScope.toggleLeftSidebar = () => $mdSidenav('left').toggle();
-        $rootScope.toggleRightSidebar = () => $mdSidenav('right').toggle();
         $rootScope.logout = () => authService.logout();
     });
+
+    app.run(function (subscriptionService) {
+        subscriptionService.checkSubscriptionStatus();
+    })
 
 })();

@@ -17,6 +17,8 @@
                 if (rejection.status === 401 || rejection.status === 403) {
                     delete $window.localStorage.token;
                     $rootScope.isAuthenticated = false;
+                    $rootScope.isAdmin = false;
+                    $rootScope.topInfoCard = {};
                     $location.path("/login");
                 }
                 return $q.reject(rejection);

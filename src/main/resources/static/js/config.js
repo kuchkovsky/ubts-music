@@ -70,16 +70,10 @@
                 data: { pageTitle: 'Моя бібліотека' },
                 resolve: resolveDelay
             })
-            .state('orders', {
-                url: "/orders",
-                templateUrl : 'templates/order-list.html',
-                data: { pageTitle: 'Список замовлень' },
-                resolve: resolveDelay
-            })
-            .state('order', {
-                url: "/orders/{orderId}",
-                templateUrl : 'templates/order.html',
-                data: { pageTitle: 'Інформація про замовлення' },
+            .state('subscriptions', {
+                url: "/subscriptions",
+                templateUrl : 'templates/subscription-list.html',
+                data: { pageTitle: 'Список підписок' },
                 resolve: resolveDelay
             })
             .state('trackUpload', {

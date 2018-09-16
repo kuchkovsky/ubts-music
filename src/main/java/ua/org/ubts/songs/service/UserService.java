@@ -9,6 +9,8 @@ public interface UserService {
 
     UserEntity getUser(Long id);
 
+    UserEntity getUser(String email);
+
     UserEntity getUser(Principal principal);
 
     UserEntity getUser(Authentication authentication);

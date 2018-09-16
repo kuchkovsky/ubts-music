@@ -14,11 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TrackEntity extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class TrackEntity extends BaseEntity<Long> {
 
     @NotEmpty
     @Column(name = "artist", nullable = false)
@@ -27,10 +23,6 @@ public class TrackEntity extends BaseEntity {
     @NotEmpty
     @Column(name = "title", nullable = false)
     private String title;
-
-    @Digits(integer = 5, fraction = 2)
-    @Column(name = "price")
-    private BigDecimal price;
 
     @Column(name = "sample_audio_url")
     private String sampleAudioUrl;

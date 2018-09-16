@@ -1,8 +1,8 @@
 {
   "development": {
-    "apiUrl": "http://localhost:8081"
+    "apiUrl": "http://localhost:8081/api"
   },
   "production": {
-    "apiUrl": "https://songs.ubts.org.ua"
+    "apiUrl": "https://songs.ubts.org.ua/api"
   }
 }

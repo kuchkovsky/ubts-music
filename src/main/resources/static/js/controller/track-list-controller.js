@@ -8,7 +8,6 @@
 
         this.tracks = [];
         this.form = {};
-        this.isMainList = $rootScope.$state.$current.name === 'home';
 
         this.search = () => {
             if (!this.form.query) {
@@ -39,11 +38,7 @@
 
         this.isSpinnerVisible = true;
 
-        if (this.isMainList) {
-            downloadService.getTracks(tracks => onSuccess(tracks), onFailure);
-        } else {
-            downloadService.getUserTracks(tracks => onSuccess(tracks), onFailure);
-        }
+        downloadService.getTracks(tracks => onSuccess(tracks), onFailure);
 
         function showDownloadError() {
             const alert = $mdDialog.alert().title('Помилка').textContent('Не вдалося завантажити файл').ok('Закрити');

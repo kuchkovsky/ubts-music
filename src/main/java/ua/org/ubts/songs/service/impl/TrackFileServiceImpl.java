@@ -213,7 +213,6 @@ public class TrackFileServiceImpl implements TrackFileService {
         TrackEntity trackEntity = TrackEntity.builder()
                 .artist(trackUploadModel.getArtist())
                 .title(trackUploadModel.getTitle())
-                .price(BigDecimal.valueOf(trackUploadModel.getPrice()))
                 .sampleAudioUrl(trackUploadModel.getSampleAudioUrl())
                 .files(trackFilesEntity)
                 .build();

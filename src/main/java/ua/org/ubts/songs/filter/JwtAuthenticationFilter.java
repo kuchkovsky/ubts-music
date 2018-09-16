@@ -1,6 +1,8 @@
 package ua.org.ubts.songs.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import ua.org.ubts.songs.dto.TokenDto;
 import ua.org.ubts.songs.dto.UserCredentialsDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -22,12 +24,13 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import static ua.org.ubts.songs.constants.JwtConstants.EXPIRATION_TIME;
-import static ua.org.ubts.songs.constants.JwtConstants.HEADER_STRING;
-import static ua.org.ubts.songs.constants.JwtConstants.TOKEN_PREFIX;
 
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private static final String CREDENTIALS_READ_ERROR_MESSAGE = "Failed to read credentials";
+
+	private static final String TOKEN_WRITE_ERROR_MESSAGE = "Could not write token to response object";
 
 	private AuthenticationManager authenticationManager;
 
@@ -56,18 +59,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 	}
 
-	@Override
-	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-											Authentication auth) {
-		String username = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
-		Claims claims = Jwts.claims().setSubject(username);
-		claims.put("roles", auth.getAuthorities().stream().map(Object::toString).collect(Collectors.toList()));
-		String token = Jwts.builder()
-				.setClaims(claims)
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, secretKey)
-				.compact();
-		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-	}
+    @Override
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
+                                            Authentication auth) {
+        String username = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles", auth.getAuthorities().stream().map(Object::toString).collect(Collectors.toList()));
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+        res.setContentType("application/json");
+        try {
+            new ObjectMapper().writeValue(res.getWriter(), new TokenDto(token));
+        } catch (IOException e) {
+            log.error(TOKEN_WRITE_ERROR_MESSAGE, e);
+        }
+    }
 
 }

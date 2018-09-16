@@ -27,79 +27,42 @@
                         <div class="list-text">
                             <h3>{{t.title}}</h3>
                             <h4>{{t.artist}}</h4>
-                            <p>Ціна: {{t.price | currency: ''}} грн</p>
                         </div>
                     </div>
                     <div>
-                        <md-button class="md-raised download-btn" ng-if="ctrl.isMainList && (!t.purchased || isAdmin)"
+                        <md-button class="md-raised download-btn" ng-if="isAdmin || !isSubscriptionActive"
                                    ng-click="ctrl.getSampleAudio(t)">
                             Демо
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-if="!ctrl.isMainList || t.purchased || isAdmin"
+                        <md-button class="md-raised download-btn" ng-if="isAdmin || isSubscriptionActive"
                                    ng-click="ctrl.getAudio(t)">
                             Аудіо
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getPdfChords(t)">
                             PDF-акорди
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getDocChords(t)">
                             DOC-акорди
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getNotes(t)">
                             Ноти
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-disabled="ctrl.isMainList && (!t.purchased && !isAdmin)"
+                        <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getPresentation(t)">
                             PPTX
                         </md-button>
                     </div>
-                    <div ng-if="!isAdmin && ctrl.isMainList && width < 750" class="track-actions">
-                        <div ng-if="!t.purchased && !t.orderPending && !t.orderRejected">
-                            <md-button ng-if="!cart.isTrackInCart(t)" ng-click="cart.addToCart(t)" class="md-raised md-primary">
-                                <md-icon md-svg-src="img/icons/ic_add_shopping_cart_black_24px.svg"></md-icon>
-                                В кошик
-                            </md-button>
-                            <md-button ng-if="cart.isTrackInCart(t)" ng-click="cart.removeFromCart(t)" class="md-raised">
-                                <md-icon md-svg-src="img/icons/ic_remove_shopping_cart_black_24px.svg"></md-icon>
-                                Видалити
-                            </md-button>
-                        </div>
-                        <div ng-if="t.purchased || t.orderPending || t.orderRejected">
-                            <md-button class="md-raised md-primary" disabled>
-                                <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
-                                {{t.purchased ? 'Придбано' : t.orderPending ? 'Замовлено' : 'Відхилено'}}
-                            </md-button>
-                        </div>
-                    </div>
-                    <div ng-if="isAdmin && ctrl.isMainList && width < 750" class="track-actions">
+                    <div ng-if="isAdmin && width < 750" class="track-actions">
                         <md-button ng-click="ctrl.deleteTrack(t)" class="md-raised md-primary">
                             <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
                             Видалити
                         </md-button>
                     </div>
                 </div>
-                <div ng-if="!isAdmin && ctrl.isMainList && width > 750" class="track-actions">
-                    <div ng-if="!t.purchased && !t.orderPending && !t.orderRejected">
-                        <md-button ng-if="!cart.isTrackInCart(t)" ng-click="cart.addToCart(t)" class="md-raised md-primary">
-                            <md-icon md-svg-src="img/icons/ic_add_shopping_cart_black_24px.svg"></md-icon>
-                            В кошик
-                        </md-button>
-                        <md-button ng-if="cart.isTrackInCart(t)" ng-click="cart.removeFromCart(t)" class="md-raised">
-                            <md-icon md-svg-src="img/icons/ic_remove_shopping_cart_black_24px.svg"></md-icon>
-                            Видалити
-                        </md-button>
-                    </div>
-                    <div ng-if="t.purchased || t.orderPending || t.orderRejected">
-                        <md-button class="md-raised md-primary" disabled>
-                            <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
-                            {{t.purchased ? 'Придбано' : t.orderPending ? 'Замовлено' : 'Відхилено'}}
-                        </md-button>
-                    </div>
-                </div>
-                <div ng-if="isAdmin && ctrl.isMainList && width > 750" class="track-actions">
+                <div ng-if="isAdmin && width > 750" class="track-actions">
                     <md-button ng-click="ctrl.deleteTrack(t)" class="md-raised md-primary">
                         <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
                         Видалити

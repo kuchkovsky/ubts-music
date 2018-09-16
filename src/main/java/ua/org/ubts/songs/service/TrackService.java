@@ -14,8 +14,6 @@ public interface TrackService {
 
     List<TrackEntity> getTracks(Optional<List<Long>> id);
 
-    List<TrackEntity> getUserTracks(Principal principal);
-
     boolean isTrackExists(String artist, String title);
 
     Long createTrack(TrackEntity trackEntity);

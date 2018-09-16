@@ -14,11 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserEntity extends BaseEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class UserEntity extends BaseEntity<Long> {
 
 	@NotEmpty
 	@Column(name = "email", nullable = false, unique = true)
@@ -48,16 +44,8 @@ public class UserEntity extends BaseEntity {
 					name = "role_id", referencedColumnName = "id"))
 	private List<RoleEntity> roles;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "user_track",
-			joinColumns = @JoinColumn(
-					name = "user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "track_id", referencedColumnName = "id"))
-	private List<TrackEntity> tracks;
-
-	@OneToMany(mappedBy = "user")
-	private List<OrderEntity> orders;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "subscription_id")
+    private SubscriptionEntity subscription;
 
 }

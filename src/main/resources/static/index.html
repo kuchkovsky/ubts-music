@@ -18,13 +18,6 @@
                 <md-icon md-svg-icon="img/icons/ic_menu_white_24px.svg"></md-icon>
             </md-button>
             <h2 flex md-truncate>{{$state.current.data.pageTitle + (isAdmin ? ' [Admin Mode]' : '')}}</h2>
-            <md-button ng-if="!isAdmin" id="cart-button" class="md-raised" ng-click="toggleRightSidebar()">
-                <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
-                <span ng-if="width > 500">
-                    Кошик ({{cart.trackList.length}}) - {{cart.totalPrice | currency: ''}} ₴
-                </span>
-                <span ng-if="width < 500">({{cart.trackList.length}}) - {{cart.totalPrice | currency: ''}} ₴</span>
-            </md-button>
         </div>
     </md-toolbar>
     <md-content flex layout="row">
@@ -41,13 +34,9 @@
                 <md-icon md-svg-src="img/icons/ic_person_add_black_24px.svg"></md-icon>
                 Реєстрація
             </md-button>
-            <md-button ng-if="isAuthenticated && !isAdmin" ui-sref="library" ng-click="toggleLeftSidebar()">
-                <md-icon md-svg-src="img/icons/ic_library_music_black_24px.svg"></md-icon>
-                Моя бібліотека
-            </md-button>
-            <md-button ng-if="isAuthenticated" ui-sref="orders" ng-click="toggleLeftSidebar()">
+            <md-button ng-if="isAuthenticated && isAdmin" ui-sref="subscriptions" ng-click="toggleLeftSidebar()">
                 <md-icon md-svg-src="img/icons/ic_list_black_24px.svg"></md-icon>
-                {{isAdmin ? 'Список замовлень' : 'Мої замовлення'}}
+                Список підписок
             </md-button>
             <md-button ng-if="isAuthenticated && isAdmin" ui-sref="trackUpload" ng-click="toggleLeftSidebar()">
                 <md-icon md-svg-src="img/icons/ic_file_upload_black_24px.svg"></md-icon>
@@ -66,39 +55,25 @@
             <div class="main-content-block" layout-fill ng-show="isMainSpinnerVisible">
                 <md-progress-circular class="center-screen" md-mode="indeterminate"></md-progress-circular>
             </div>
+            <md-card id="top-info-card" ng-if="topInfoCard.message">
+                <md-card-content>
+                    <h3 class="cart-card-title center">{{topInfoCard.message}}</h3>
+                    <div class="center" ng-if="topInfoCard.showSubscribeButton" ng-controller="subscriptionCtrl as ctrl">
+                        <md-button class="md-raised md-primary" ng-click="ctrl.subscribe()">
+                            <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
+                            Оформити підписку
+                        </md-button>
+                    </div>
+                </md-card-content>
+            </md-card>
             <ui-view class="main-content-block" ng-show="!isMainSpinnerVisible"></ui-view>
         </md-content>
-        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" layout="column">
-            <md-content flex ng-controller="cartCtrl as ctrl">
-                <md-card ng-repeat="t in cart.trackList">
-                    <md-button class="md-icon-button clear-cart-item" ng-click="cart.removeFromCart(t)">
-                        <md-icon md-svg-icon="img/icons/ic_clear_black_24px.svg"></md-icon>
-                    </md-button>
-                    <md-card-content>
-                        <h3 class="cart-card-title">{{t.title}}</h3>
-                        <p class="cart-card-artist">{{t.artist}}</p>
-                        <p>Ціна: {{t.price | currency: ''}} грн</p>
-                    </md-card-content>
-                </md-card>
-                <div class="center">
-                    <h3 ng-if="cart.isCartEmpty()" class="md-subhead">Кошик пустий</h3>
-                    <h3 ng-if="!cart.isCartEmpty()" class="md-subhead">
-                        Разом: {{cart.totalPrice | currency: ''}} грн
-                    </h3>
-                    <md-button class="md-raised md-primary" ng-disabled="cart.isCartEmpty()"
-                               ng-click="ctrl.proceedToOrder()">
-                        <md-icon md-svg-src="img/icons/ic_shopping_cart_black_24px.svg"></md-icon>
-                        Перейти до оплати
-                    </md-button>
-                </div>
-            </md-content>
-        </md-sidenav>
     </md-content>
 </md-content>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-messages.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.9/angular-material.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.2/angular-scroll.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.16/angular-ui-router.min.js"></script>

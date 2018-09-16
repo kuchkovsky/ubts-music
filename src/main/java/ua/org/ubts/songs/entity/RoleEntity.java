@@ -13,11 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RoleEntity extends BaseEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class RoleEntity extends BaseEntity<Integer> {
 
 	@NotEmpty
 	@Column(name = "name", nullable = false)

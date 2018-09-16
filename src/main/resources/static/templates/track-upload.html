@@ -18,17 +18,6 @@
                     </div>
                 </md-input-container>
                 <md-input-container class="md-block">
-                    <label>Ціна</label>
-                    <input required name="price" ng-model="ctrl.form.trackInfo.price"
-                           ng-pattern="/^\d?\d\d\.\d\d$/">
-                    <div ng-messages="trackForm.price.$error">
-                        <div ng-message="required">Обов'язкове поле.</div>
-                        <div ng-message="pattern">
-                            Ціна повинна бути вказана в форматі XX.XX
-                        </div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="md-block">
                     <label>Посилання на демо-аудіо</label>
                     <input name="sampleAudioUrl" ng-model="ctrl.form.trackInfo.sampleAudioUrl"
                            ng-required="!ctrl.form.trackFiles.sampleAudio[0]">
