@@ -4,7 +4,7 @@
 
     const app = angular.module('ubtsMusicStore');
 
-    app.service('subscriptionService', function ($rootScope, $http, $mdDialog, downloadService, apiUrl) {
+    app.service('subscriptionService', function ($rootScope, $state, $http, $mdDialog, downloadService, apiUrl) {
 
         function daysBetween(first, second) {
             const millisecondsPerDay = 1000 * 60 * 60 * 24;
@@ -20,15 +20,15 @@
                 $rootScope.isSubscriptionActive = false;
                 downloadService.getCurrentUserSubscription(subscription => {
                     if (subscription.requestPending) {
-                        $rootScope.topInfoCard.message = "Заявку надіслано. Очікуйте підтвердження оплати адміністратором"
+                        $rootScope.topInfoCard.message = 'Заявку надіслано. Очікуйте підтвердження оплати адміністратором';
                     } else if (subscription.banned) {
-                        $rootScope.topInfoCard.message = "Запит на отримання підписки був відхилений або ваша підписка заблокована." +
+                        $rootScope.topInfoCard.message = 'Запит на отримання підписки був відхилений або ваша підписка заблокована.' +
                             " Для отримання доступу зв'яжіться з адміністрацією";
                     } else if (subscription.expired) {
                         $rootScope.topInfoCard.message = `Термін дії вашої підписки закінчився ${subscription.expirationDate}. Оформіть нову підписку`;
                         $rootScope.topInfoCard.showSubscribeButton = true;
                     } else if (!subscription.active) {
-                        $rootScope.topInfoCard.message = "Для отримання доступу до музики необхідно оформити підписку";
+                        $rootScope.topInfoCard.message = 'Для отримання доступу до музики необхідно оформити підписку';
                         $rootScope.topInfoCard.showSubscribeButton = true;
                     } else {
                         $rootScope.isSubscriptionActive = true;

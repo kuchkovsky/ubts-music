@@ -14,10 +14,18 @@
     });
 
     app.run(function($transitions, $rootScope) {
-        $transitions.onStart({ }, function(trans) {
+        $transitions.onStart({ }, function(transition) {
             $rootScope.isMainSpinnerVisible = true;
+            if (!$rootScope.isAuthenticated) {
+                if (transition.to().name === 'home') {
+                    $rootScope.topInfoCard.message = 'Для завантаження музики увійдіть в свій акаунт або зареєструйтесь';
+                    $rootScope.topInfoCard.showLoginButton = true;
+                } else {
+                    $rootScope.topInfoCard = {};
+                }
+            }
         });
-        $transitions.onFinish({ }, function(trans) {
+        $transitions.onFinish({ }, function(transition) {
             $rootScope.isMainSpinnerVisible = false;
         });
     });

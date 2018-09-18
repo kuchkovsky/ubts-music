@@ -64,6 +64,14 @@
                             Оформити підписку
                         </md-button>
                     </div>
+                    <div class="center" ng-if="topInfoCard.showLoginButton">
+                        <md-button class="md-raised md-primary" ui-sref="login">
+                            Вхід
+                        </md-button>
+                        <md-button class="md-raised md-primary" ui-sref="signup">
+                            Реєстрація
+                        </md-button>
+                    </div>
                 </md-card-content>
             </md-card>
             <ui-view class="main-content-block" ng-show="!isMainSpinnerVisible"></ui-view>
