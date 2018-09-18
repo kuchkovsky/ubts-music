@@ -21,7 +21,7 @@ public class TrackFilesDownloadFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String requestUri = request.getRequestURI();
-        if (requestUri.equals("/api/files/tracks") || requestUri.contains("/sample/")) {
+        if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || requestUri.contains("/sample/")) {
             chain.doFilter(request, response);
         } else {
             String token = request.getParameter("token");

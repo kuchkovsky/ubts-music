@@ -25,7 +25,6 @@ import ua.org.ubts.songs.service.TrackService;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,6 +43,8 @@ public class TrackFileServiceImpl implements TrackFileService {
     private static final String NOTES_FILENAME = "notes";
     private static final String PRESENTATION_FILENAME = "presentation";
 
+    private static final String INCORRECT_FORM_DATA_MESSAGE = "Incorrect form data";
+    private static final String TRACK_ALREADY_EXISTS_MESSAGE = "Track already exists";
     private static final String SAMPLE_AUDIO_NOT_FOUND_MESSAGE = "Could not find sample audio for track with id=";
     private static final String AUDIO_NOT_FOUND_MESSAGE = "Could not find audio for track with id=";
     private static final String PDF_CHORDS_NOT_FOUND_MESSAGE = "Could not find pdf chords for track with id=";
@@ -142,7 +143,14 @@ public class TrackFileServiceImpl implements TrackFileService {
     public void saveTrack(TrackUploadModel trackUploadModel) {
         checkTrackUploadModel(trackUploadModel);
         checkIfTrackExists(trackUploadModel);
-        Long id = saveTrackToDb(trackUploadModel);
+        Long id = saveTrackToDb(trackUploadModel, null);
+        saveFiles(trackUploadModel, id);
+    }
+
+    @Override
+    public void editTrack(TrackUploadModel trackUploadModel, Long id) {
+        checkTrackUploadModel(trackUploadModel);
+        saveTrackToDb(trackUploadModel, id);
         saveFiles(trackUploadModel, id);
     }
 
@@ -175,13 +183,13 @@ public class TrackFileServiceImpl implements TrackFileService {
 
     private void checkTrackUploadModel(TrackUploadModel trackUploadModel) {
         if (StringUtils.isEmpty(trackUploadModel.getArtist()) || StringUtils.isEmpty(trackUploadModel.getTitle())) {
-            throw new IcorrectFormDataException();
+            throw new IcorrectFormDataException(INCORRECT_FORM_DATA_MESSAGE);
         }
     }
 
     private void checkIfTrackExists(TrackUploadModel trackUploadModel) {
         if (trackService.isTrackExists(trackUploadModel.getArtist(), trackUploadModel.getTitle())) {
-            throw new TrackAlreadyExistsException();
+            throw new TrackAlreadyExistsException(TRACK_ALREADY_EXISTS_MESSAGE);
         }
     }
 
@@ -194,28 +202,55 @@ public class TrackFileServiceImpl implements TrackFileService {
                 .orElseGet(() -> fileExtensionRepository.saveAndFlush(new FileExtensionEntity(fileExtension)));
     }
 
-    private Long saveTrackToDb(TrackUploadModel trackUploadModel) {
+    private Long saveTrackToDb(TrackUploadModel trackUploadModel, Long id) {
         TrackFilesEntity trackFilesEntity = TrackFilesEntity.builder()
                 .sampleAudioExtension(trackUploadModel.getSampleAudio() != null ?
                         getFileExtensionEntity(
                                 getFileExtension(trackUploadModel.getSampleAudio().getOriginalFilename())) : null)
-                .audioExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getAudio().getOriginalFilename())))
-                .pdfChordsExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())))
-                .docChordsExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())))
-                .notesExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getNotes().getOriginalFilename())))
-                .presentationExtension(getFileExtensionEntity(
-                        getFileExtension(trackUploadModel.getPresentation().getOriginalFilename())))
+                .audioExtension(trackUploadModel.getAudio() != null ?
+                        getFileExtensionEntity(
+                                getFileExtension(trackUploadModel.getAudio().getOriginalFilename())) : null)
+                .pdfChordsExtension(trackUploadModel.getPdfChords() != null ?
+                        getFileExtensionEntity(
+                                getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())): null)
+                .docChordsExtension(trackUploadModel.getDocChords() != null ?
+                        getFileExtensionEntity(
+                                getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())): null)
+                .notesExtension(trackUploadModel.getNotes() != null ?
+                        getFileExtensionEntity(
+                                getFileExtension(trackUploadModel.getNotes().getOriginalFilename())): null)
+                .presentationExtension(trackUploadModel.getPresentation() != null ?
+                        getFileExtensionEntity(
+                                getFileExtension(trackUploadModel.getPresentation().getOriginalFilename())): null)
                 .build();
+        if (id != null) {
+            TrackFilesEntity trackFilesEntityFromDb = trackService.getTrack(id).getFiles();
+            if (trackFilesEntity.getSampleAudioExtension() == null) {
+                trackFilesEntity.setSampleAudioExtension(trackFilesEntityFromDb.getSampleAudioExtension());
+            }
+            if (trackFilesEntity.getAudioExtension() == null) {
+                trackFilesEntity.setAudioExtension(trackFilesEntityFromDb.getAudioExtension());
+            }
+            if (trackFilesEntity.getDocChordsExtension() == null) {
+                trackFilesEntity.setDocChordsExtension(trackFilesEntityFromDb.getDocChordsExtension());
+            }
+            if (trackFilesEntity.getPdfChordsExtension() == null) {
+                trackFilesEntity.setPdfChordsExtension(trackFilesEntityFromDb.getPdfChordsExtension());
+            }
+            if (trackFilesEntity.getNotesExtension() == null) {
+                trackFilesEntity.setNotesExtension(trackFilesEntityFromDb.getNotesExtension());
+            }
+            if (trackFilesEntity.getPresentationExtension() == null) {
+                trackFilesEntity.setPresentationExtension(trackFilesEntityFromDb.getPresentationExtension());
+            }
+        }
         TrackEntity trackEntity = TrackEntity.builder()
                 .artist(trackUploadModel.getArtist())
                 .title(trackUploadModel.getTitle())
                 .sampleAudioUrl(trackUploadModel.getSampleAudioUrl())
                 .files(trackFilesEntity)
                 .build();
+        trackEntity.setId(id);
         return trackService.createTrack(trackEntity);
     }
 
@@ -231,21 +266,31 @@ public class TrackFileServiceImpl implements TrackFileService {
                         getFileExtension(trackUploadModel.getSampleAudio().getOriginalFilename())),
                         trackUploadModel.getSampleAudio().getBytes());
             }
-            Files.write(getPath(id, AUDIO_FILENAME,
-                    getFileExtension(trackUploadModel.getAudio().getOriginalFilename())),
-                    trackUploadModel.getAudio().getBytes());
-            Files.write(getPath(id, PDF_CHORDS_FILENAME,
-                    getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())),
-                    trackUploadModel.getPdfChords().getBytes());
-            Files.write(getPath(id, DOC_CHORDS_FILENAME,
-                    getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())),
-                    trackUploadModel.getDocChords().getBytes());
-            Files.write(getPath(id, NOTES_FILENAME,
-                    getFileExtension(trackUploadModel.getNotes().getOriginalFilename())),
-                    trackUploadModel.getNotes().getBytes());
-            Files.write(getPath(id, PRESENTATION_FILENAME,
-                    getFileExtension(trackUploadModel.getPresentation().getOriginalFilename())),
-                    trackUploadModel.getPresentation().getBytes());
+            if (trackUploadModel.getAudio() != null) {
+                Files.write(getPath(id, AUDIO_FILENAME,
+                        getFileExtension(trackUploadModel.getAudio().getOriginalFilename())),
+                        trackUploadModel.getAudio().getBytes());
+            }
+            if (trackUploadModel.getPdfChords() != null) {
+                Files.write(getPath(id, PDF_CHORDS_FILENAME,
+                        getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())),
+                        trackUploadModel.getPdfChords().getBytes());
+            }
+            if (trackUploadModel.getDocChords() != null) {
+                Files.write(getPath(id, DOC_CHORDS_FILENAME,
+                        getFileExtension(trackUploadModel.getDocChords().getOriginalFilename())),
+                        trackUploadModel.getDocChords().getBytes());
+            }
+            if (trackUploadModel.getNotes() != null) {
+                Files.write(getPath(id, NOTES_FILENAME,
+                        getFileExtension(trackUploadModel.getNotes().getOriginalFilename())),
+                        trackUploadModel.getNotes().getBytes());
+            }
+            if (trackUploadModel.getPresentation() != null) {
+                Files.write(getPath(id, PRESENTATION_FILENAME,
+                        getFileExtension(trackUploadModel.getPresentation().getOriginalFilename())),
+                        trackUploadModel.getPresentation().getBytes());
+            }
         } catch (IOException e) {
             log.error(WRITE_FILE_ERROR_MESSAGE, e);
             throw new FileWriteException(WRITE_FILE_ERROR_MESSAGE);
@@ -256,7 +301,7 @@ public class TrackFileServiceImpl implements TrackFileService {
         try {
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment;filename=" + UriUtils.encodePath(fileName,"UTF-8"))
+                            "attachment;filename=" + UriUtils.encodePath(fileName.replace(",", "_"),"UTF-8"))
                     .contentType(MediaType.parseMediaType(mimeType)).contentLength(Files.size(path))
                     .body(new PathResource(path));
         } catch (IOException e) {

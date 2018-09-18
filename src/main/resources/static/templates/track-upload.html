@@ -19,13 +19,7 @@
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>Посилання на демо-аудіо</label>
-                    <input name="sampleAudioUrl" ng-model="ctrl.form.trackInfo.sampleAudioUrl"
-                           ng-required="!ctrl.form.trackFiles.sampleAudio[0]">
-                    <br>
-                    <div id="sample-error-caption" class="md-caption error"
-                         ng-if="!ctrl.form.trackFiles.sampleAudio[0] && !ctrl.form.trackInfo.sampleAudioUrl">
-                        Обов'язкове поле, якщо не вибрано файл демо-аудіо
-                    </div>
+                    <input name="sampleAudioUrl" ng-model="ctrl.form.trackInfo.sampleAudioUrl">
                 </md-input-container>
             </section>
             <section id="files">
@@ -39,42 +33,27 @@
                     <section>
                         <h3 class="md-subhead">Аудіо:</h3>
                         <lf-ng-md-file-input name="audio" ng-model="ctrl.form.trackFiles.audio"
-                                             lf-files="ctrl.form.trackFiles.audio" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.audio.$error" class="md-caption error">
-                            <div ng-message="required">Обов'язкове поле.</div>
-                        </div>
+                                             lf-files="ctrl.form.trackFiles.audio" progress></lf-ng-md-file-input>
                     </section>
                     <section>
                         <h3 class="md-subhead">PDF-акорди:</h3>
                         <lf-ng-md-file-input name="pdfChords" ng-model="ctrl.form.trackFiles.pdfChords"
-                                             lf-files="ctrl.form.trackFiles.pdfChords" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.pdfChords.$error" class="md-caption error">
-                            <div ng-message="required">Обов'язкове поле.</div>
-                        </div>
+                                             lf-files="ctrl.form.trackFiles.pdfChords" progress></lf-ng-md-file-input>
                     </section>
                     <section>
                         <h3 class="md-subhead">DOC-акорди:</h3>
                         <lf-ng-md-file-input name="docChords" ng-model="ctrl.form.trackFiles.docChords"
-                                             lf-files="ctrl.form.trackFiles.docChords" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.docChords.$error" class="md-caption error">
-                            <div ng-message="required">Обов'язкове поле.</div>
-                        </div>
+                                             lf-files="ctrl.form.trackFiles.docChords" progress></lf-ng-md-file-input>
                     </section>
                     <section>
                         <h3 class="md-subhead">Ноти:</h3>
                         <lf-ng-md-file-input name="notes" ng-model="ctrl.form.trackFiles.notes"
-                                             lf-files="ctrl.form.trackFiles.notes" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.notes.$error" class="md-caption error">
-                            <div ng-message="required">Обов'язкове поле.</div>
-                        </div>
+                                             lf-files="ctrl.form.trackFiles.notes" progress></lf-ng-md-file-input>
                     </section>
                     <section>
                         <h3 class="md-subhead">Презентація:</h3>
                         <lf-ng-md-file-input name="presentation" ng-model="ctrl.form.trackFiles.presentation"
-                                             lf-files="ctrl.form.trackFiles.presentation" lf-required progress></lf-ng-md-file-input>
-                        <div ng-messages="trackForm.presentation.$error" class="md-caption error">
-                            <div ng-message="required">Обов'язкове поле.</div>
-                        </div>
+                                             lf-files="ctrl.form.trackFiles.presentation" progress></lf-ng-md-file-input>
                     </section>
                 </div>
             </section>

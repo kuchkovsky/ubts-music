@@ -81,6 +81,12 @@
                 templateUrl : 'templates/track-upload.html',
                 data: { pageTitle: 'Додати пісню' },
                 resolve: resolveDelay
+            })
+            .state('trackEdit', {
+                url: "/tracks/{trackId}",
+                templateUrl : 'templates/track-upload.html',
+                data: { pageTitle: 'Редагувати пісню' },
+                resolve: resolveDelay
             });
     });
 

@@ -21,6 +21,12 @@ public class TrackFileApiController {
         trackFileService.saveTrack(trackUploadModel);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/{id}")
+    public void editTrackFiles(@ModelAttribute TrackUploadModel trackUploadModel, @PathVariable("id") Long id) {
+        trackFileService.editTrack(trackUploadModel, id);
+    }
+
     @GetMapping("/sample/{id}")
     public ResponseEntity<Resource> getTrackSampleAudio(@PathVariable("id") Long id) {
         return trackFileService.getSampleAudio(id);

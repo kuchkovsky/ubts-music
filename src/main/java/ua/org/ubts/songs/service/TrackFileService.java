@@ -20,6 +20,8 @@ public interface TrackFileService {
 
     void saveTrack(TrackUploadModel trackUploadModel);
 
+    void editTrack(TrackUploadModel trackUploadModel, Long id);
+
     void deleteTrack(Long id);
 
 }
