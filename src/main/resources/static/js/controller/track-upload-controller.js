@@ -7,7 +7,10 @@
     app.controller('trackUploadCtrl', function (uploadService, downloadService, $rootScope, $mdDialog, $state, $stateParams, $location) {
 
         this.form = {
-            trackInfo: {},
+            trackInfo: {
+                tags: [],
+                newTag: ''
+            },
             trackFiles: {},
             progressBar: {
                 isVisible: false,
@@ -23,6 +26,7 @@
             $rootScope.isMainSpinnerVisible = true;
             downloadService.getTracksByIds([$stateParams.trackId], tracks => {
                 this.form.trackInfo = tracks[0];
+                this.form.trackInfo.newTag = '';
                 $rootScope.isMainSpinnerVisible = false;
             }, () => {
                 const alert = $mdDialog.alert().title('Помилка')
@@ -31,6 +35,15 @@
                 $rootScope.isMainSpinnerVisible = false;
             });
         }
+
+        this.addTag = () => {
+            if (this.form.trackInfo.newTag !== '' && this.form.trackInfo.tags.findIndex(t => t.name === this.form.trackInfo.newTag) === -1) {
+                this.form.trackInfo.tags.push({name: this.form.trackInfo.newTag});
+            }
+            this.form.trackInfo.newTag = '';
+        };
+
+        this.deleteTag = tag => this.form.trackInfo.tags = this.form.trackInfo.tags.filter(t => t !== tag);
 
         this.submit = () => {
             if (this.submitLock) {

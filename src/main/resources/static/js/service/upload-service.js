@@ -10,6 +10,12 @@
             const formData = new FormData();
             formData.append('artist', trackInfo.artist);
             formData.append('title', trackInfo.title);
+            const tags = trackInfo.tags.map(t => {
+                return {
+                    name: t.name
+                }
+            });
+            formData.append('tags', JSON.stringify(tags));
             if (trackInfo.sampleAudioUrl) {
                 formData.append('sampleAudioUrl', trackInfo.sampleAudioUrl);
             }
@@ -60,6 +66,12 @@
             const formData = new FormData();
             formData.append('artist', trackInfo.artist);
             formData.append('title', trackInfo.title);
+            const tags = trackInfo.tags.map(t => {
+                return {
+                    name: t.name
+                }
+            });
+            formData.append('tags', JSON.stringify(tags));
             if (trackInfo.sampleAudioUrl) {
                 formData.append('sampleAudioUrl', trackInfo.sampleAudioUrl);
             }

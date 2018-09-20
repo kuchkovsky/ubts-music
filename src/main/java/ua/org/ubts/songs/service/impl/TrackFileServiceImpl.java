@@ -1,5 +1,7 @@
 package ua.org.ubts.songs.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriUtils;
 import ua.org.ubts.songs.entity.FileExtensionEntity;
+import ua.org.ubts.songs.entity.TagEntity;
 import ua.org.ubts.songs.entity.TrackEntity;
 import ua.org.ubts.songs.entity.TrackFilesEntity;
 import ua.org.ubts.songs.exception.*;
@@ -28,6 +31,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -251,6 +256,16 @@ public class TrackFileServiceImpl implements TrackFileService {
                 .files(trackFilesEntity)
                 .build();
         trackEntity.setId(id);
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        List<TagEntity> tagEntityList;
+        try {
+            tagEntityList = objectMapper
+                    .readValue(trackUploadModel.getTags(), typeFactory.constructCollectionType(List.class, TagEntity.class));
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+        trackEntity.setTags(tagEntityList);
         return trackService.createTrack(trackEntity);
     }
 

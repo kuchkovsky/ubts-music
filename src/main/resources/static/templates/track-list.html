@@ -10,7 +10,7 @@
     <md-card-header>
         <div layout="row" flex id="search">
             <md-input-container class="md-block" flex>
-                <label>Назва пісні</label>
+                <label>Назва пісні або тег</label>
                 <input name="query" ng-model="ctrl.form.query" ng-keyup="ctrl.search()">
             </md-input-container>
         </div>
@@ -54,13 +54,18 @@
                                    ng-click="ctrl.getPresentation(t)">
                             PPTX
                         </md-button>
+                        <div class="tag-block">
+                            Теги: <span ng-repeat="tag in t.tags" ng-click="ctrl.searchByTag(tag)">
+                            <a href="" style="color: gray">{{tag.name}}</a>
+                        </span>
+                        </div>
                     </div>
                     <div ng-if="isAdmin && width < 750" class="track-actions">
                         <md-button ng-click="ctrl.deleteTrack(t)" class="md-raised md-primary">
                             <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
                             Видалити
                         </md-button>
-                        <md-button ng-click="ctrl.editTrack(t)" class="md-raised md-primary">
+                        <md-button ui-sref="trackEdit({trackId: t.id})" class="md-raised md-primary">
                             <md-icon md-svg-src="img/icons/baseline-edit-24px.svg"></md-icon>
                             Редагувати
                         </md-button>

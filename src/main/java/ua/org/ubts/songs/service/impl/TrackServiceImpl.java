@@ -2,8 +2,10 @@ package ua.org.ubts.songs.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.org.ubts.songs.entity.TagEntity;
 import ua.org.ubts.songs.entity.TrackEntity;
 import ua.org.ubts.songs.exception.TrackNotFoundException;
+import ua.org.ubts.songs.repository.TagRepository;
 import ua.org.ubts.songs.repository.TrackRepository;
 import ua.org.ubts.songs.service.TrackFileService;
 import ua.org.ubts.songs.service.TrackService;
@@ -11,6 +13,7 @@ import ua.org.ubts.songs.service.TrackService;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -20,6 +23,9 @@ public class TrackServiceImpl implements TrackService {
 
     @Autowired
     private TrackRepository trackRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @Autowired
     private TrackFileService trackFileService;
@@ -47,6 +53,13 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Long createTrack(TrackEntity trackEntity) {
+        List<TagEntity> tags = trackEntity.getTags().stream()
+                .map(tagEntity -> tagRepository
+                        .findByName(tagEntity.getName())
+                        .orElse(tagEntity))
+                .collect(Collectors.toList());
+        trackEntity.setTags(tags);
+        tagRepository.saveAll(tags);
         return trackRepository.saveAndFlush(trackEntity).getId();
     }
 

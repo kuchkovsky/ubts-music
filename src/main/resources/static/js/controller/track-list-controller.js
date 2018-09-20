@@ -18,10 +18,16 @@
             const query = this.form.query.toLowerCase();
             this.tracks.forEach(track => {
                 const fullName = track.artist.toLowerCase() + ' - ' + track.title.toLowerCase();
-                if (fullName.indexOf(query) !== -1) {
+                const hasTag = track.tags.some(tag => tag.name.toLowerCase().indexOf(query) !== -1);
+                if (fullName.indexOf(query) !== -1 || hasTag) {
                     this.form.tracks.push(track);
                 }
             });
+        };
+
+        this.searchByTag = tag => {
+            this.form.query = tag.name;
+            this.search();
         };
 
         const onSuccess = tracks => {

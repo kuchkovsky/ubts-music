@@ -195,3 +195,20 @@ md-card-header {
 .download-btn {
     width: 100px;
 }
+
+.tag-list-item {
+    height: 30px !important;
+    min-height: 30px !important;
+}
+
+#add-tag-block, #add-tag-block .md-block {
+    width: 100% !important;
+}
+
+#add-tag-block .md-button {
+    height: 40px;
+}
+
+.tag-block {
+    padding: 10px;
+}

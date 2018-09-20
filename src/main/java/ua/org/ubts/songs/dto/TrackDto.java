@@ -3,7 +3,7 @@ package ua.org.ubts.songs.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class TrackDto extends BaseDto {
@@ -16,5 +16,7 @@ public class TrackDto extends BaseDto {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String sampleAudioUrl;
+
+    private List<TagDto> tags;
 
 }
