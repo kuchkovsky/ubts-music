@@ -61,6 +61,7 @@
             delete $window.localStorage.token;
             $rootScope.isAuthenticated = false;
             $rootScope.isAdmin = false;
+            $rootScope.isSubscriptionActive = false;
             $rootScope.topInfoCard = {};
             $location.path("/login");
         };
