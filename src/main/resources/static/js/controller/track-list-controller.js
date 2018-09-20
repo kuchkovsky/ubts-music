@@ -51,6 +51,17 @@
             $mdDialog.show(alert);
         }
 
+        this.setUrl = track => track.url = downloadService.getSampleAudioUrl(track);
+
+        this.openSampleLink = track => {
+            const anchor = angular.element('<a/>');
+            anchor.attr({
+                href: track.sampleAudioUrl,
+                target: '_blank'
+            })[0].click();
+            anchor.remove();
+        };
+
         this.getSampleAudio = track => downloadService.getSampleAudio(track);
 
         this.getPdfChords = track => downloadService.getPdfChords(track, () => showDownloadError());

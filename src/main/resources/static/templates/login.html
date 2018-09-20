@@ -12,13 +12,9 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <label>Пароль</label>
-                <input type="password" required name="password" ng-model="ctrl.credentials.password"
-                       ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/">
+                <input type="password" required name="password" ng-model="ctrl.credentials.password">
                 <div ng-messages="loginForm.password.$error">
                     <div ng-message="required">Обов'язкове поле.</div>
-                    <div ng-message="pattern">
-                        Пароль повинен містити мінімум 8 символів, включаючи мінімум одну букву і одну цифру
-                    </div>
                 </div>
             </md-input-container>
             <div ng-show="ctrl.error" class="md-subhead form-error-message center error">

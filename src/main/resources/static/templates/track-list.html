@@ -16,6 +16,7 @@
         </div>
     </md-card-header>
     <md-card-content layout="row" layout-align="space-between">
+        <sound-manager></sound-manager>
         <md-list flex window-width>
             <md-progress-circular class="center-screen spinner" md-mode="indeterminate"
                                   ng-show="ctrl.isSpinnerVisible"></md-progress-circular>
@@ -30,10 +31,28 @@
                         </div>
                     </div>
                     <div>
-                        <md-button class="md-raised download-btn" ng-if="isAdmin || !isSubscriptionActive"
-                                   ng-click="ctrl.getSampleAudio(t)">
-                            Демо
-                        </md-button>
+                        <div ng-if="t.sampleAudioUrl">
+                            <md-button class="md-raised download-btn" ng-click="ctrl.openSampleLink(t)">
+                                <md-icon md-svg-src="img/icons/baseline-videocam-24px.svg"></md-icon>
+                                Демо
+                            </md-button>
+                        </div>
+                        <div ng-if="!t.sampleAudioUrl">
+                            <md-button ng-click="ctrl.setUrl(t)" music-player="play" add-song="t" class="md-raised download-btn" ng-if="!isPlaying">
+                                <md-icon md-svg-src="img/icons/baseline-play_arrow-24px.svg"></md-icon>
+                                Демо
+                            </md-button>
+                            <md-button stop-music class="md-raised download-btn" ng-if="isPlaying">
+                                <md-icon md-svg-src="img/icons/baseline-stop-24px.svg"></md-icon>
+                                Демо
+                            </md-button>
+                            <md-button class="md-raised download-btn" ng-click="ctrl.getSampleAudio(t)">
+                                <md-icon md-svg-src="img/icons/baseline-cloud_download-24px.svg"></md-icon>
+                                Демо
+                            </md-button>
+                        </div>
+                    </div>
+                    <div>
                         <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getPdfChords(t)">
                             PDF-акорди

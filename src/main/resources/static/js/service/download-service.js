@@ -44,18 +44,13 @@
             }, onError);
         }
 
+        this.getSampleAudioUrl = track => apiUrl + '/files/tracks/sample/' + track.id;
+
         this.getSampleAudio = track => {
             const anchor = angular.element('<a/>');
-            if (track.sampleAudioUrl) {
-                anchor.attr({
-                    href: track.sampleAudioUrl,
-                    target: '_blank'
-                })[0].click();
-            } else {
-                anchor.attr({
-                    href: apiUrl + '/files/tracks/sample/' + track.id,
-                })[0].click();
-            }
+            anchor.attr({
+                href: this.getSampleAudioUrl(track),
+            })[0].click();
             anchor.remove();
         };
 

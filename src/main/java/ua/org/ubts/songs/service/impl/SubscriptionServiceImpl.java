@@ -78,6 +78,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionRepository.save(subscriptionEntity);
     }
 
+    @Override
     public void checkSubscriptions() {
         log.info("Checking for expired subscriptions...");
         subscriptionRepository.findAll().forEach(subscriptionEntity -> {

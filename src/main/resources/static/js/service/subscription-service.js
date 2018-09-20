@@ -28,7 +28,7 @@
                         $rootScope.topInfoCard.message = `Термін дії вашої підписки закінчився ${subscription.expirationDate}. Оформіть нову підписку`;
                         $rootScope.topInfoCard.showSubscribeButton = true;
                     } else if (!subscription.active) {
-                        $rootScope.topInfoCard.message = 'Для отримання доступу до музики необхідно оформити підписку';
+                        $rootScope.topInfoCard.message = 'Для завантаження файлів необхідно оформити підписку';
                         $rootScope.topInfoCard.showSubscribeButton = true;
                     } else {
                         $rootScope.isSubscriptionActive = true;

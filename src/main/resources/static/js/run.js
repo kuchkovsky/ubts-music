@@ -18,7 +18,7 @@
             $rootScope.isMainSpinnerVisible = true;
             if (!$rootScope.isAuthenticated) {
                 if (transition.to().name === 'home') {
-                    $rootScope.topInfoCard.message = 'Для завантаження музики увійдіть в свій акаунт або зареєструйтесь';
+                    $rootScope.topInfoCard.message = 'Для завантаження файлів увійдіть в свій акаунт або зареєструйтесь';
                     $rootScope.topInfoCard.showLoginButton = true;
                 } else {
                     $rootScope.topInfoCard = {};
