@@ -32,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,7 +41,6 @@ public class TrackFileServiceImpl implements TrackFileService {
     private static final String TRACKS_DIRECTORY = "tracks";
 
     private static final String SAMPLE_AUDIO_FILENAME = "sampleAudio";
-    private static final String AUDIO_FILENAME = "audio";
     private static final String PDF_CHORDS_FILENAME = "pdfChords";
     private static final String DOC_CHORDS_FILENAME = "docChords";
     private static final String NOTES_FILENAME = "notes";
@@ -51,7 +49,6 @@ public class TrackFileServiceImpl implements TrackFileService {
     private static final String INCORRECT_FORM_DATA_MESSAGE = "Incorrect form data";
     private static final String TRACK_ALREADY_EXISTS_MESSAGE = "Track already exists";
     private static final String SAMPLE_AUDIO_NOT_FOUND_MESSAGE = "Could not find sample audio for track with id=";
-    private static final String AUDIO_NOT_FOUND_MESSAGE = "Could not find audio for track with id=";
     private static final String PDF_CHORDS_NOT_FOUND_MESSAGE = "Could not find pdf chords for track with id=";
     private static final String DOC_CHORDS_NOT_FOUND_MESSAGE = "Could not find doc chords for track with id=";
     private static final String NOTES_NOT_FOUND_MESSAGE = "Could not find notes for track with id=";
@@ -86,17 +83,6 @@ public class TrackFileServiceImpl implements TrackFileService {
         String mimeType = getMimeType(trackFilesEntity.getSampleAudioExtension());
         Path path = getPath(id, SAMPLE_AUDIO_FILENAME, extension);
         String downloadType = " (" + SAMPLE_AUDIO_FILENAME + ")";
-        return buildResponseEntity(getFileName(id) + downloadType + extension, mimeType, path);
-    }
-
-    @Override
-    public ResponseEntity<Resource> getAudio(Long id) {
-        TrackFilesEntity trackFilesEntity = trackRepository.findById(id).map(TrackEntity::getFiles).orElseThrow(() ->
-                new FileNotFoundException(AUDIO_NOT_FOUND_MESSAGE + id));
-        String extension = trackFilesEntity.getAudioExtension().getName();
-        String mimeType = getMimeType(trackFilesEntity.getAudioExtension());
-        Path path = getPath(id, AUDIO_FILENAME, extension);
-        String downloadType = " (" + AUDIO_FILENAME + ")";
         return buildResponseEntity(getFileName(id) + downloadType + extension, mimeType, path);
     }
 
@@ -212,9 +198,6 @@ public class TrackFileServiceImpl implements TrackFileService {
                 .sampleAudioExtension(trackUploadModel.getSampleAudio() != null ?
                         getFileExtensionEntity(
                                 getFileExtension(trackUploadModel.getSampleAudio().getOriginalFilename())) : null)
-                .audioExtension(trackUploadModel.getAudio() != null ?
-                        getFileExtensionEntity(
-                                getFileExtension(trackUploadModel.getAudio().getOriginalFilename())) : null)
                 .pdfChordsExtension(trackUploadModel.getPdfChords() != null ?
                         getFileExtensionEntity(
                                 getFileExtension(trackUploadModel.getPdfChords().getOriginalFilename())): null)
@@ -232,9 +215,6 @@ public class TrackFileServiceImpl implements TrackFileService {
             TrackFilesEntity trackFilesEntityFromDb = trackService.getTrack(id).getFiles();
             if (trackFilesEntity.getSampleAudioExtension() == null) {
                 trackFilesEntity.setSampleAudioExtension(trackFilesEntityFromDb.getSampleAudioExtension());
-            }
-            if (trackFilesEntity.getAudioExtension() == null) {
-                trackFilesEntity.setAudioExtension(trackFilesEntityFromDb.getAudioExtension());
             }
             if (trackFilesEntity.getDocChordsExtension() == null) {
                 trackFilesEntity.setDocChordsExtension(trackFilesEntityFromDb.getDocChordsExtension());
@@ -280,11 +260,6 @@ public class TrackFileServiceImpl implements TrackFileService {
                 Files.write(getPath(id, SAMPLE_AUDIO_FILENAME,
                         getFileExtension(trackUploadModel.getSampleAudio().getOriginalFilename())),
                         trackUploadModel.getSampleAudio().getBytes());
-            }
-            if (trackUploadModel.getAudio() != null) {
-                Files.write(getPath(id, AUDIO_FILENAME,
-                        getFileExtension(trackUploadModel.getAudio().getOriginalFilename())),
-                        trackUploadModel.getAudio().getBytes());
             }
             if (trackUploadModel.getPdfChords() != null) {
                 Files.write(getPath(id, PDF_CHORDS_FILENAME,

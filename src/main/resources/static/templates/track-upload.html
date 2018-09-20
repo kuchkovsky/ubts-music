@@ -35,7 +35,6 @@
                                    <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
                                </md-button>
                            </div>
-                           <p ng-if="ctrl.form.trackInfo.tags.length === 0">Список пустий</p>
                        </md-list-item>
                    </md-list>
                    <div layout="row" id="add-tag-block">
@@ -56,11 +55,6 @@
                         <h3 class="md-subhead">Демо-аудіо:</h3>
                         <lf-ng-md-file-input name="sampleAudio" ng-model="ctrl.form.trackFiles.sampleAudio"
                                              lf-files="ctrl.form.trackFiles.sampleAudio" progress></lf-ng-md-file-input>
-                    </section>
-                    <section>
-                        <h3 class="md-subhead">Аудіо:</h3>
-                        <lf-ng-md-file-input name="audio" ng-model="ctrl.form.trackFiles.audio"
-                                             lf-files="ctrl.form.trackFiles.audio" progress></lf-ng-md-file-input>
                     </section>
                     <section>
                         <h3 class="md-subhead">PDF-акорди:</h3>

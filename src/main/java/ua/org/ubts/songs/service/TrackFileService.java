@@ -8,8 +8,6 @@ public interface TrackFileService {
 
     ResponseEntity<Resource> getSampleAudio(Long id);
 
-    ResponseEntity<Resource> getAudio(Long id);
-
     ResponseEntity<Resource> getPdfChords(Long id);
 
     ResponseEntity<Resource> getDocChords(Long id);

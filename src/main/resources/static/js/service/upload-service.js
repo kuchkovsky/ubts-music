@@ -22,9 +22,6 @@
             if (trackFiles.sampleAudio[0]) {
                 formData.append('sampleAudio', trackFiles.sampleAudio[0].lfFile);
             }
-            if (trackFiles.audio[0]) {
-                formData.append('audio', trackFiles.audio[0].lfFile);
-            }
             if (trackFiles.pdfChords[0]) {
                 formData.append('pdfChords', trackFiles.pdfChords[0].lfFile);
             }
@@ -77,9 +74,6 @@
             }
             if (trackFiles.sampleAudio[0]) {
                 formData.append('sampleAudio', trackFiles.sampleAudio[0].lfFile);
-            }
-            if (trackFiles.audio[0]) {
-                formData.append('audio', trackFiles.audio[0].lfFile);
             }
             if (trackFiles.pdfChords[0]) {
                 formData.append('pdfChords', trackFiles.pdfChords[0].lfFile);

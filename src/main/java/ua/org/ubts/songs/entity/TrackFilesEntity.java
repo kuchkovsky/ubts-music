@@ -18,10 +18,6 @@ public class TrackFilesEntity extends BaseEntity<Long> {
     private FileExtensionEntity sampleAudioExtension;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "audio_ext_id")
-    private FileExtensionEntity audioExtension;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pdf_chords_ext_id")
     private FileExtensionEntity pdfChordsExtension;
 

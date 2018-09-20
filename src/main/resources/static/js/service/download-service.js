@@ -59,8 +59,6 @@
             anchor.remove();
         };
 
-        this.getAudio = (track, onError) => secureTrackFileDownload(track, 'audio', onError);
-
         this.getPdfChords = (track, onError) => secureTrackFileDownload(track, 'chords/pdf', onError);
 
         this.getDocChords = (track, onError) => secureTrackFileDownload(track, 'chords/doc', onError);

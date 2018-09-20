@@ -53,8 +53,6 @@
 
         this.getSampleAudio = track => downloadService.getSampleAudio(track);
 
-        this.getAudio = track => downloadService.getAudio(track, () => showDownloadError());
-
         this.getPdfChords = track => downloadService.getPdfChords(track, () => showDownloadError());
 
         this.getDocChords = track => downloadService.getDocChords(track, () => showDownloadError());

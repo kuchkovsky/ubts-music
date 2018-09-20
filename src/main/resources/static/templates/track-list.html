@@ -34,10 +34,6 @@
                                    ng-click="ctrl.getSampleAudio(t)">
                             Демо
                         </md-button>
-                        <md-button class="md-raised download-btn" ng-if="isAdmin || isSubscriptionActive"
-                                   ng-click="ctrl.getAudio(t)">
-                            Аудіо
-                        </md-button>
                         <md-button class="md-raised download-btn" ng-disabled="!isAdmin && !isSubscriptionActive"
                                    ng-click="ctrl.getPdfChords(t)">
                             PDF-акорди
