@@ -49,7 +49,9 @@
         }
 
         this.activateSubscription = subscription => {
-            subscriptionService.activateSubscription(subscription, () => {}, () => {
+            subscriptionService.activateSubscription(subscription, () => {
+                this.loadSubscriptions();
+            }, () => {
                 showError('Не вдалося активувати підписку');
             });
         };
