@@ -41,11 +41,11 @@
                     <label>{{$state.current.name === 'signup' ? 'Пароль' : 'Новий пароль'}}</label>
                     <input type="password" name="password" ng-model="ctrl.user.password"
                            ng-required="$state.current.name === 'signup' || ctrl.passwordConfirmation"
-                           ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/">
+                           ng-pattern="/^[\S]{8,}$/">
                     <div ng-messages="userForm.password.$error">
                         <div ng-message="required">Обов'язкове поле.</div>
                         <div ng-message="pattern">
-                            Пароль повинен містити мінімум 8 символів, включаючи мінімум одну букву і одну цифру.
+                            Пароль повинен містити мінімум 8 непробільних символів
                         </div>
                     </div>
                 </md-input-container>
