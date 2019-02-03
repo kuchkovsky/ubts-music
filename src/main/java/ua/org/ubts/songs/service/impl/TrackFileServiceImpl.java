@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.PathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -293,7 +293,7 @@ public class TrackFileServiceImpl implements TrackFileService {
                     .header(HttpHeaders.CONTENT_DISPOSITION,
                             "attachment;filename=" + UriUtils.encodePath(fileName.replace(",", "_"),"UTF-8"))
                     .contentType(MediaType.parseMediaType(mimeType)).contentLength(Files.size(path))
-                    .body(new PathResource(path));
+                    .body(new FileSystemResource(path));
         } catch (IOException e) {
             log.error(READ_FILE_ERROR_MESSAGE, e);
             throw new FileReadException(READ_FILE_ERROR_MESSAGE);
