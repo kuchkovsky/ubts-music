@@ -7,8 +7,8 @@
     app.controller('subscriptionListCtrl', function ($mdDialog, $rootScope, downloadService, subscriptionService) {
         this.subscriptions = [];
         this.form = {};
-        this.selectedNavItem = 'requestPendingSubscriptions';
-        this.requestPending = true;
+        this.selectedNavItem = 'notActiveSubscriptions';
+        this.active = false;
 
         this.search = () => {
             if (!this.form.query) {

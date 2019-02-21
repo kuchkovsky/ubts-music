@@ -1,13 +1,29 @@
 <md-card class="wide-main-card">
     <md-card-title>
         <md-card-title-text>
-            <span class="md-headline center">Сайт продажу українських пісень прославлення та перекладів</span>
+            <span class="md-headline center">УКРАЇНОМОВНИЙ РЕСУРС ПІСЕНЬ ПОКЛОНІННЯ</span>
         </md-card-title-text>
     </md-card-title>
     <img ng-src="img/background.jpg">
     <md-card-content>
         Для замовлення фонограм або аранжувань звертайтесь за емейлом <a href="mailto:Xlysta@i.ua">Xlysta@i.ua</a> (Володимир Хлиста)
+        <br>
+        Для замовлення нотного набору пісень звертайтесь за емейлом <a href="mailto:anastasiagren@gmail.com">anastasiagren@gmail.com</a>
     </md-card-content>
+</md-card>
+<md-card id="contact-card" class="wide-main-card">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline center">Маєте запитання чи пропозицію?</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content class="center">
+        Напишіть нам в будь-який зручний для вас месенджер
+    </md-card-content>
+    <md-card-actions class="center">
+        <md-button class="md-raised md-primary" ng-href="https://t.me/inchkinch" target="_blank">Telegram</md-button>
+        <md-button class="md-raised md-primary" ng-href="https://www.facebook.com/messages/t/eelorchid" target="_blank">Facebook</md-button>
+    </md-card-actions>
 </md-card>
 <md-card class="wide-main-card" ng-controller="trackListCtrl as ctrl">
     <md-card-header>
@@ -24,7 +40,11 @@
             <md-progress-circular class="center-screen spinner" md-mode="indeterminate"
                                   ng-show="ctrl.isSpinnerVisible"></md-progress-circular>
             <md-list-item class="md-3-line" ng-repeat="t in ctrl.form.tracks | orderBy:'id':true">
-                <img ng-src="img/icons/ic_music_note_black_48px.svg" class="md-avatar">
+                <div>
+                    <img ng-src="img/icons/ic_music_note_black_48px.svg" class="md-avatar">
+                    <br>
+                    <img ng-if="t.new_" ng-src="img/new.png" class="md-avatar">
+                </div>
                 <div class="md-list-item-text">
                     <div layout="row">
                         <div class="list-item-index"><h3>{{$index + 1}}.</h3></div>

@@ -26,7 +26,7 @@
             $rootScope.isMainSpinnerVisible = true;
             downloadService.getTracksByIds([$stateParams.trackId], tracks => {
                 this.form.trackInfo = tracks[0];
-                this.form.trackInfo.newTag = '';
+                this.form.trackInfo.tags = tracks[0].tags.map(t => t.name).join(',');
                 $rootScope.isMainSpinnerVisible = false;
             }, () => {
                 const alert = $mdDialog.alert().title('Помилка')

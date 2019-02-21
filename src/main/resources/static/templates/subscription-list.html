@@ -12,16 +12,16 @@
         </md-card-header>
         <md-card-content layout="column" layout-align="space-between">
             <md-nav-bar nav-bar-aria-label="navigation links" md-selected-nav-item="ctrl.selectedNavItem">
-                <md-nav-item md-nav-click="ctrl.requestPending = true" name="requestPendingSubscriptions">
-                    Нові запити
+                <md-nav-item md-nav-click="ctrl.active = true" name="activeSubscriptions">
+                    Активні
                 </md-nav-item>
-                <md-nav-item md-nav-click="ctrl.requestPending = false" name="allSubscriptions">
-                    Всі підписки
+                <md-nav-item md-nav-click="ctrl.active = false" name="notActiveSubscriptions">
+                    Неактивні
                 </md-nav-item>
             </md-nav-bar>
             <md-list class="no-animation">
                 <md-list-item class="md-3-line student-list-item" ng-show="!ctrl.isSpinnerVisible"
-                              ng-repeat="s in ctrl.form.subscriptions | filter: {requestPending: ctrl.requestPending} | orderBy:'user.id':true">
+                              ng-repeat="s in ctrl.form.subscriptions | filter: {active: ctrl.active} | orderBy:'user.id':true">
                     <img ng-src="img/icons/ic_star_rate_black_18px.svg" class="md-avatar" alt="Avatar">
                     <div class="md-list-item-text">
                         <div layout="row">
@@ -33,6 +33,7 @@
                                 <h4>Email: {{s.user.email}}</h4>
                                 <h4>Телефон: {{s.user.phone}}</h4>
                                 <p>Статус: {{s.active ? 'Підписка активна до ' + s.expirationDate : 'Підписка неактивна'}}</p>
+                                <p ng-if="s.active">Дата активації: {{s.expirationDate.substring(0, 8)}}{{s.expirationDate.substring(8, 10) - 1}}</p>
                             </div>
                         </div>
                         <div ng-if="width < 750" class="track-actions">

@@ -23,6 +23,9 @@ public class TrackEntity extends BaseEntity<Long> {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "new")
+    private boolean new_;
+
     @Column(name = "sample_audio_url")
     private String sampleAudioUrl;
 

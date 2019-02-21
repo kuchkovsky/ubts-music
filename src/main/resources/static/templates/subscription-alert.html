@@ -5,11 +5,12 @@
                 <div ng-if="!subscriptionRequest.state.hasStarted">
                     <h3>Оформлення підписки</h3>
                     <p class="md-subhead">Ви оформлюєте підписку вартістю <b>100 грн/рік</b></p>
-                    <p>Для оплати підписки перекажіть кошти на рахунок, вказаний нижче:</p>
+                    <p>Для оплати підписки перекажіть кошти на рахунок, вказаний нижче,
+                        та <b>вкажіть своє прізвище</b> як коментар до платежу:</p>
                     <div id="card-number-block" flex layout="row">
                         <md-input-container class="md-block">
                             <label>Номер картки</label>
-                            <input id="card-number" value="4149 4391 0795 2412" ng-readonly="true">
+                            <input id="card-number" value="5168 7573 8441 0538" ng-readonly="true">
                         </md-input-container>
                         <md-button id="copy-number-btn" class="md-raised" ngclipboard data-clipboard-target="#card-number"
                                    ng-click="showToast()">

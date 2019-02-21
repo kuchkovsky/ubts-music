@@ -38,6 +38,7 @@
             download(apiUrl + '/tokens/tracks/' + track.id, data => {
                 const anchor = angular.element('<a/>');
                 anchor.attr({
+                    target: "_blank",
                     href: apiUrl + '/files/tracks/' + fileType + '/' + track.id + '?token=' + data.token,
                 })[0].click();
                 anchor.remove();

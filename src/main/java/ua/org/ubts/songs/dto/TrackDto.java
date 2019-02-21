@@ -14,6 +14,8 @@ public class TrackDto extends BaseDto {
 
     private String title;
 
+    private boolean new_;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String sampleAudioUrl;
 

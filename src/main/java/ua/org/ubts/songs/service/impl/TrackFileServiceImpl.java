@@ -232,6 +232,7 @@ public class TrackFileServiceImpl implements TrackFileService {
         TrackEntity trackEntity = TrackEntity.builder()
                 .artist(trackUploadModel.getArtist())
                 .title(trackUploadModel.getTitle())
+                .new_(Boolean.parseBoolean(trackUploadModel.getNew_()))
                 .sampleAudioUrl(trackUploadModel.getSampleAudioUrl())
                 .files(trackFilesEntity)
                 .build();
@@ -291,7 +292,7 @@ public class TrackFileServiceImpl implements TrackFileService {
         try {
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment;filename=" + UriUtils.encodePath(fileName.replace(",", "_"),"UTF-8"))
+                            "inline;filename=" + UriUtils.encodePath(fileName.replace(",", "_"),"UTF-8"))
                     .contentType(MediaType.parseMediaType(mimeType)).contentLength(Files.size(path))
                     .body(new FileSystemResource(path));
         } catch (IOException e) {

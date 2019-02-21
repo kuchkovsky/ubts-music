@@ -21,32 +21,16 @@
                     <label>Посилання на демо-аудіо</label>
                     <input name="sampleAudioUrl" ng-model="ctrl.form.trackInfo.sampleAudioUrl">
                 </md-input-container>
+                <md-checkbox ng-model="ctrl.form.trackInfo.new_">
+                    Нова пісня
+                </md-checkbox>
             </section>
             <section id="tags">
                 <h3 class="md-headline center">Теги</h3>
-               <div>
-                   <md-list>
-                       <md-list-item class="md-2-line tag-list-item" ng-repeat="tag in ctrl.form.trackInfo.tags">
-                           <div layout="row" flex>
-                               <div class="md-list-item-text">
-                                   <h3>{{$index + 1}}. {{tag.name}}</h3>
-                               </div>
-                               <md-button ng-click="ctrl.deleteTag(tag)">
-                                   <md-icon md-svg-src="img/icons/ic_delete_black_24px.svg"></md-icon>
-                               </md-button>
-                           </div>
-                       </md-list-item>
-                   </md-list>
-                   <div layout="row" id="add-tag-block">
-                       <md-input-container class="md-block">
-                           <label>Тег</label>
-                           <input name="tag" ng-model="ctrl.form.trackInfo.newTag">
-                       </md-input-container>
-                       <md-button class="md-raised md-primary" ng-click="ctrl.addTag()">
-                           Додати
-                       </md-button>
-                   </div>
-               </div>
+                <md-input-container class="md-block">
+                    <label>Теги (розділені комою)</label>
+                    <textarea name="tags" ng-model="ctrl.form.trackInfo.tags"></textarea>
+                </md-input-container>
             </section>
             <section id="files">
                 <h3 class="md-headline center">Файли</h3>

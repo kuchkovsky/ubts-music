@@ -212,3 +212,12 @@ md-card-header {
 .tag-block {
     padding: 10px;
 }
+
+@media only screen and (min-width: 1480px) {
+    #contact-card {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+    }
+}
