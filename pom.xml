@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ua.org.ubts.songs</groupId>
-    <artifactId>ubts-music-store</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <artifactId>ubts-music</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>UBTS-MusicStore</name>
+    <name>UBTS Music</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

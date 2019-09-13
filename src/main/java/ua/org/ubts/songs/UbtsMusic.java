@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class MusicStoreApplication {
+public class UbtsMusic {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MusicStoreApplication.class, args);
+		SpringApplication.run(UbtsMusic.class, args);
 	}
 
 }

@@ -1,5 +1,5 @@
 {
-  "name": "ubts-musicstore",
+  "name": "ubts-music",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kuchkovsky/UBTS-MusicStore.git"
+    "url": "git+https://github.com/kuchkovsky/ubts-music.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kuchkovsky/UBTS-MusicStore/issues"
+    "url": "https://github.com/kuchkovsky/ubts-music/issues"
   },
-  "homepage": "https://github.com/kuchkovsky/UBTS-MusicStore#readme",
+  "homepage": "https://github.com/kuchkovsky/ubts-music#readme",
   "devDependencies": {
     "add-stream": "^1.0.0",
     "babel-core": "^6.26.3",
