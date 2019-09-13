@@ -23,7 +23,7 @@ public class TrackTokenServiceImpl implements TrackTokenService {
     private static final String SUBSCRIPTION_NOT_ACTIVATED_MESSAGE = "You don't have permission to obtain this token. "
             + "Please activate your subscription first.";
 
-    private static final long TOKEN_EXPIRATION_TIME = 2000; // 2s
+    private static final long TOKEN_EXPIRATION_TIME = 60000; // 60s
 
     @Autowired
     private UserService userService;
